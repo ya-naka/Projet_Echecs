@@ -1,11 +1,15 @@
-package jeu;
+package pieces;
 
-public abstract class Piece {
+import jeu.DeplacerException;
+
+public abstract class Piece implements IPiece{
 	private int x;
 	private int y;
+	private String couleur;
 	
-	public Piece(int x, int y) {
+	public Piece(int x, int y, String couleur) {
 		setPosition(x,y);
+		this.couleur = couleur;
 	}
 	
 	protected void deplacer(int x, int y) throws DeplacerException {
@@ -30,4 +34,9 @@ public abstract class Piece {
 	public int getY() {
 		return this.y;
 	}
+	
+	public String getCouleur() {
+		return this.couleur;
+	}
+	
 }
