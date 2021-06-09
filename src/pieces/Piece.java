@@ -1,41 +1,40 @@
 package pieces;
 
-import jeu.DeplacerException;
+import java.util.List;
+
+import couleur.ICouleur;
+import jeu.Deplacement;
 
 public abstract class Piece implements IPiece{
-	private int x;
-	private int y;
-	private String couleur;
+	private int position;
+	private ICouleur couleur;
 	
-	public Piece(int x, int y, String couleur) {
-		setPosition(x,y);
+	public Piece(int position, ICouleur couleur) {
+		//setPosition(position);
+		this.position = position;
 		this.couleur = couleur;
 	}
 	
-	protected void deplacer(int x, int y) throws DeplacerException {
-		if(peutDeplacer(x,y)) {
-			setPosition(x,y);
-		}else {
-			throw new DeplacerException();
-		}
+	protected void deplacer(int position){
+		if(peutDeplacer(position)) {
+			//setPosition(x,y);
+			this.position = position;
+		}else {}
 	}
 	
-	protected abstract boolean peutDeplacer(int x, int y);
+	public abstract List<Deplacement> getDeplacementsPossibles();
 	
-	private void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
+	protected abstract boolean peutDeplacer(int nouvellePosition);
+	
+	/*private void setPosition(int position) {
+		this.position = position;
+	}*/
+	
+	public int getPosition() {
+		return this.position;
 	}
 	
-	public int getX() {
-		return this.x;
-	}
-	
-	public int getY() {
-		return this.y;
-	}
-	
-	public String getCouleur() {
+	public ICouleur getCouleur() {
 		return this.couleur;
 	}
 	

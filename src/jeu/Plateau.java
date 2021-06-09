@@ -1,5 +1,10 @@
 package jeu;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import couleur.Blanc;
+import couleur.Noir;
 import joueur.IJoueur;
 import pieces.IPiece;
 import pieces.Piece;
@@ -7,31 +12,38 @@ import pieces.Roi;
 import pieces.Tour;
 
 public class Plateau {
-	private static final int NB_CASES = 8;
-	private IPiece[][] plateau;
+	private static final int NB_CASES = 64;
+	private Case[] plateau;
 	private IJoueur j1, j2;
 	
 	public Plateau(IJoueur j1, IJoueur j2) {
-		this.plateau = new Piece[NB_CASES][NB_CASES];
-		this.plateau[0][0] = new Tour(0,0,"blanc");
-		this.plateau[0][1] = new Roi(0,1, "blanc");
-		this.plateau[2][4] = new Roi(2,4, "noir");
+		this.plateau = new Case[NB_CASES];
+		for(int i = 0; i < NB_CASES; i++) {
+			this.plateau[i] = new Case(i, null);
+		}
+		
+		this.plateau[0] = new Case(0, new Roi(0, new Blanc()));
+		
 		this.j1 = j1;
 		this.j2 = j2;
 	}
 	
 	public String toString() {
 		String plateau;
+		String caractere;
 		plateau = "    a   b   c   d   e   f   g   h\n";
 		plateau += "   --- --- --- --- --- --- --- ---\n";
+		//la première case s'affiche en bas à droite, A CHANGER
 		for(int i = NB_CASES-1; i >= 0; i--) {
-			plateau += (i+1) + " |";
-			for(int j = 0; j < NB_CASES; j++) {
-				String caractere = this.plateau[i][j] == null ? " " : this.plateau[i][j].toString();
-				plateau += " " + caractere + " |";
+			if((i+1)%8 == 0) {
+				plateau += ((i/8)+1) + " |";
 			}
-			plateau += " " + (i+1) + System.lineSeparator();
-			plateau += "   --- --- --- --- --- --- --- ---\n";
+			caractere = this.plateau[i].estOccupée() ? this.plateau[i].getPiece().toString() : " ";
+			plateau += " " + caractere + " |";
+			if((i+1)%8 == 1) {
+				plateau += " " + ((i/8)+1) + System.lineSeparator();
+				plateau += "   --- --- --- --- --- --- --- ---\n";
+			}
 		}
 		plateau += "    a   b   c   d   e   f   g   h\n";
 		return plateau;
