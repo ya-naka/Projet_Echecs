@@ -28,6 +28,10 @@ public class Plateau {
 		this.j2 = j2;
 	}
 	
+	public Case getCase(int index) {
+		return this.plateau[index];
+	}
+	
 	public String toString() {
 		String plateau;
 		String caractere;
