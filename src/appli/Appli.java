@@ -3,6 +3,8 @@ package appli;
 
 import java.util.Scanner;
 
+import couleur.Blanc;
+import couleur.Noir;
 import jeu.Plateau;
 import joueur.IJoueur;
 import joueur.Joueur;
@@ -24,20 +26,20 @@ public class Appli {
 		}while(saisie < 1 || saisie > 3);
 		switch(saisie) {
 			case 1:
-				j1 = new Joueur();
-				j2 = new Joueur();
+				j1 = new Joueur(new Blanc());
+				j2 = new Joueur(new Noir());
 				break;
 			case 2:
-				j1 = new Joueur();
-				j2 = new Ordinateur();
+				j1 = new Joueur(new Blanc());
+				j2 = new Ordinateur(new Noir());
 				break;
 			case 3:
-				j1 = new Ordinateur();
-				j2 = new Ordinateur();
+				j1 = new Ordinateur(new Blanc());
+				j2 = new Ordinateur(new Noir());
 				break;
 			default:
-				j1 = new Ordinateur();
-				j2 = new Ordinateur();
+				j1 = new Ordinateur(new Blanc());
+				j2 = new Ordinateur(new Noir());
 				break;
 		}
 		

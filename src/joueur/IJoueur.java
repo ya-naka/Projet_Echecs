@@ -1,5 +1,7 @@
 package joueur;
 
-public interface IJoueur {
+import jeu.Plateau;
 
+public interface IJoueur {
+	void jouer(Plateau plateau);
 }
