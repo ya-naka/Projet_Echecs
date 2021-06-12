@@ -3,9 +3,9 @@ package jeu;
 import utils.SaisieUtils;
 
 public class Deplacement {
-	int coordCaseActuelle;
-	int coordNouvelleCase;
-	Plateau plateau;
+	private final int coordCaseActuelle;
+	private final int coordNouvelleCase;
+	private Plateau plateau;
 	
 	public Deplacement(Plateau plateau, String mouvement) {
 		assert(SaisieUtils.estSaisieValide(mouvement));
@@ -13,4 +13,13 @@ public class Deplacement {
 		this.coordNouvelleCase = SaisieUtils.saisieToCoordonnée(mouvement.substring(2, 4));
 		this.plateau = plateau;
 	}
+	
+	public boolean estDeplacementValide() {
+		return false;
+	}
+	
+	public void deplacer() {
+		
+	}
+
 }

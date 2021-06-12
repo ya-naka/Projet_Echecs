@@ -4,7 +4,7 @@ import couleur.ICouleur;
 import jeu.Plateau;
 
 public class Ordinateur implements IJoueur{
-	ICouleur camp;
+	private final ICouleur camp;
 	
 	public Ordinateur(ICouleur camp) {
 		this.camp = camp;
