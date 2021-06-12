@@ -23,7 +23,7 @@ public class Plateau {
 		}
 		
 		this.plateau[0] = new Case(0, new Roi(0, new Blanc()));
-		
+		this.plateau[63] = new Case(63, new Roi(63, new Noir()));
 		this.j1 = j1;
 		this.j2 = j2;
 	}
@@ -31,21 +31,20 @@ public class Plateau {
 	public String toString() {
 		String plateau;
 		String caractere;
-		plateau = "    a   b   c   d   e   f   g   h\n";
-		plateau += "   --- --- --- --- --- --- --- ---\n";
-		//la première case s'affiche en bas à droite, A CHANGER
-		for(int i = NB_CASES-1; i >= 0; i--) {
-			if((i+1)%8 == 0) {
-				plateau += ((i/8)+1) + " |";
+		plateau = "    a   b   c   d   e   f   g   h" + System.lineSeparator();
+		plateau += "   --- --- --- --- --- --- --- ---" + System.lineSeparator();
+		
+		for(int i = 7; i >= 0; i--) {
+			plateau += (i+1) + " |";
+			for(int j = 0; j <= 7; j++) {
+				caractere = this.plateau[(i*8)+j].estOccupée() ? this.plateau[(i*8)+j].getPiece().toString() : " ";
+				plateau += " " + caractere + " |";
 			}
-			caractere = this.plateau[i].estOccupée() ? this.plateau[i].getPiece().toString() : " ";
-			plateau += " " + caractere + " |";
-			if((i+1)%8 == 1) {
-				plateau += " " + ((i/8)+1) + System.lineSeparator();
-				plateau += "   --- --- --- --- --- --- --- ---\n";
-			}
+			plateau += " " + (i+1) + System.lineSeparator();
+			plateau += "   --- --- --- --- --- --- --- ---" + System.lineSeparator();
 		}
-		plateau += "    a   b   c   d   e   f   g   h\n";
+		
+		plateau += "    a   b   c   d   e   f   g   h" + System.lineSeparator();
 		return plateau;
 	}
 }
