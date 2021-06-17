@@ -26,9 +26,10 @@ public class Roi extends Piece{
 		List<Deplacement> depPossibles = new ArrayList<>();
 		for(int i = 0; i < coordDeplacements.length; i++) {
 			int position = coordDeplacements[i]+super.getPosition();
-			if(!plateau.getCase(position).getPiece().getCouleur().toString().equals(super.getCouleur())
-					&& (position < plateau.NB_CASES && position >= 0)) {
-				depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
+			if(position < Plateau.NB_CASES && position >= 0) {
+				if(!plateau.getCase(position).getPiece().getCouleur().toString().equals(super.getCouleur().toString())) {
+					depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
+				}
 			}
 		}
 		return depPossibles;
