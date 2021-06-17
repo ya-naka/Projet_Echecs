@@ -20,8 +20,10 @@ public class Joueur implements IJoueur{
 		String saisie;
 		boolean saisieOk = false;
 		boolean deplacementOk = false;
-		//vérification de la saisie du joueur
+		;
+		//vérifie que le pion peut être déplacé
 		do {
+			//vérification de la saisie du joueur
 			do {
 				saisie = sin.nextLine();
 				//Séparer l'affichage console de la classe
@@ -29,7 +31,6 @@ public class Joueur implements IJoueur{
 					System.out.println("Veuillez saisir un coup valide et/ou 2 cases différentes");
 				}
 			}while(!saisieOk);
-		
 			Deplacement dep = new Deplacement(plateau, saisie);
 			if(deplacementOk = dep.estDeplacementValide()) {
 				dep.deplacer();

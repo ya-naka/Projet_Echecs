@@ -1,5 +1,6 @@
 package jeu;
 
+import pieces.IPiece;
 import utils.SaisieUtils;
 
 public class Deplacement {
@@ -15,11 +16,32 @@ public class Deplacement {
 	}
 	
 	public boolean estDeplacementValide() {
-		return false;
+		//vérifie qu'une pièce se trouve sur la case de départ
+		if(!this.plateau.getCase(this.coordCaseActuelle).estOccupée()) {
+			return false;
+		}
+		
+		//vérifie que les règles des déplacement des pieces soient respectées
+		IPiece piece = this.plateau.getCase(this.coordCaseActuelle).getPiece();
+		if(!piece.getDeplacementsPossibles().contains(this)) {
+			return false;
+		}
+		//vérifie que les règles du plateau soient respectées
+		Plateau plateauCopie = this.plateau;
+		plateauCopie.deplacer(this);
+		return !plateauCopie.estEchec(piece.getCouleur());
 	}
 	
 	public void deplacer() {
-		
+		assert(estDeplacementValide());
+	}
+	
+	public int getCoordActuelle() {
+		return this.coordCaseActuelle;
+	}
+	
+	public int getNouvelleCoord() {
+		return this.coordNouvelleCase;
 	}
 
 }

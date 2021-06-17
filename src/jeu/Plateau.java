@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import couleur.Blanc;
+import couleur.ICouleur;
 import couleur.Noir;
 import joueur.IJoueur;
 import pieces.IPiece;
@@ -15,6 +16,7 @@ public class Plateau {
 	private static final int NB_CASES = 64;
 	private Case[] plateau;
 	private IJoueur j1, j2;
+	private List<Deplacement> historique;
 	
 	public Plateau(IJoueur j1, IJoueur j2) {
 		this.plateau = new Case[NB_CASES];
@@ -26,6 +28,7 @@ public class Plateau {
 		this.plateau[63] = new Case(63, new Roi(63, new Noir()));
 		this.j1 = j1;
 		this.j2 = j2;
+		this.historique = new ArrayList<>();
 	}
 	
 	public Case getCase(int index) {
@@ -50,5 +53,15 @@ public class Plateau {
 		
 		plateau += "    a   b   c   d   e   f   g   h" + System.lineSeparator();
 		return plateau;
+	}
+
+	public void deplacer(Deplacement deplacement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean estEchec(ICouleur couleur) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

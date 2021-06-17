@@ -10,11 +10,6 @@ public class Tour extends Piece{
 	public Tour(int position, ICouleur couleur) {
 		super(position, couleur);
 	}
-
-	@Override
-	protected boolean peutDeplacer(int position) {
-		return false;
-	}
 	
 	public String toString() {
 		if(super.getCouleur().estBlanc()) {

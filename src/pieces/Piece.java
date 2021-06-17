@@ -10,25 +10,26 @@ public abstract class Piece implements IPiece{
 	private ICouleur couleur;
 	
 	public Piece(int position, ICouleur couleur) {
-		//setPosition(position);
 		this.position = position;
 		this.couleur = couleur;
 	}
 	
-	protected void deplacer(int position){
-		if(peutDeplacer(position)) {
-			//setPosition(x,y);
-			this.position = position;
-		}else {}
+	public void deplacer(int position){
+		assert(peutDeplacer(position));
+		this.position = position;
 	}
 	
 	public abstract List<Deplacement> getDeplacementsPossibles();
 	
-	protected abstract boolean peutDeplacer(int nouvellePosition);
-	
-	/*private void setPosition(int position) {
-		this.position = position;
-	}*/
+	public boolean peutDeplacer(int nouvellePosition) {
+		List<Deplacement> deplacementsPossibles = getDeplacementsPossibles();
+		for(Deplacement dep : deplacementsPossibles) {
+			if(dep.getNouvelleCoord() == nouvellePosition) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public int getPosition() {
 		return this.position;
