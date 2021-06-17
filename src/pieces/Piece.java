@@ -4,6 +4,7 @@ import java.util.List;
 
 import couleur.ICouleur;
 import jeu.Deplacement;
+import jeu.Plateau;
 
 public abstract class Piece implements IPiece{
 	private int position;
@@ -14,15 +15,15 @@ public abstract class Piece implements IPiece{
 		this.couleur = couleur;
 	}
 	
-	public void deplacer(int position){
-		assert(peutDeplacer(position));
+	public void deplacer(Plateau plateau, int position){
+		assert(peutDeplacer(plateau, position));
 		this.position = position;
 	}
 	
-	public abstract List<Deplacement> getDeplacementsPossibles();
+	public abstract List<Deplacement> getDeplacementsPossibles(Plateau plateau);
 	
-	public boolean peutDeplacer(int nouvellePosition) {
-		List<Deplacement> deplacementsPossibles = getDeplacementsPossibles();
+	public boolean peutDeplacer(Plateau plateau, int nouvellePosition) {
+		List<Deplacement> deplacementsPossibles = getDeplacementsPossibles(plateau);
 		for(Deplacement dep : deplacementsPossibles) {
 			if(dep.getNouvelleCoord() == nouvellePosition) {
 				return true;

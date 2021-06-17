@@ -4,6 +4,7 @@ import java.util.List;
 
 import couleur.ICouleur;
 import jeu.Deplacement;
+import jeu.Plateau;
 
 public class Tour extends Piece{
 
@@ -19,7 +20,7 @@ public class Tour extends Piece{
 	}
 
 	@Override
-	public List<Deplacement> getDeplacementsPossibles() {
+	public List<Deplacement> getDeplacementsPossibles(Plateau plateau) {
 		return null;
 	}
 
