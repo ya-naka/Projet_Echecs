@@ -62,5 +62,14 @@ public class Deplacement {
 	public int getNouvelleCoord() {
 		return this.coordNouvelleCase;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this.getClass() != o.getClass()) {
+			return false;
+		}
+		Deplacement dep = (Deplacement)o;
+		return (dep.getCoordActuelle() == this.getCoordActuelle()) && (dep.getNouvelleCoord() == this.getNouvelleCoord());
+	}
 
 }
