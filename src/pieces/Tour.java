@@ -33,7 +33,7 @@ public class Tour extends Piece{
 				if(estSurTrajectoire(coordDeplacements[i])) {
 					if(!plateau.getCase(position).estOccupée()) {
 						depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
-					}else if(!plateau.getCase(position).getPiece().getCouleur().toString().equals(super.getCouleur().toString())) {
+					}else if(!plateau.getCase(position).getPiece().getCouleur().estMemeCouleur(super.getCouleur())) {
 						depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
 						break;
 					}

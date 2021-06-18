@@ -1,12 +1,13 @@
 package jeu;
 
+import pieces.IPiece;
 import pieces.Piece;
 
 public class Case {
 	private final int coordonnée;
-	private Piece piece;
+	private IPiece piece;
 	
-	public Case(int coordonnée, Piece piece) {
+	public Case(int coordonnée, IPiece piece) {
 		this.coordonnée = coordonnée;
 		this.piece = piece;
 	}
@@ -15,8 +16,12 @@ public class Case {
 		return this.coordonnée;
 	}
 	
-	public Piece getPiece() {
+	public IPiece getPiece() {
 		return this.piece;
+	}
+	
+	public void setPiece(IPiece piece) {
+		this.piece = piece;
 	}
 	
 	public boolean estOccupée() {

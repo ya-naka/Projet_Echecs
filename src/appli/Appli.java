@@ -13,7 +13,6 @@ import joueur.Ordinateur;
 public class Appli {
 
 	public static void main(String[] args) {
-		/*
 		IJoueur j1, j2;
 		int saisie;
 		Scanner sin = new Scanner(System.in);
@@ -43,17 +42,8 @@ public class Appli {
 				break;
 		}
 		
-		
 		Plateau jeu = new Plateau(j1, j2);
 		System.out.println(jeu.toString());
-		*/
-		IJoueur j1 = new Joueur(new Blanc());
-		IJoueur j2 = new Joueur(new Noir());
-		Plateau jeu = new Plateau(j1, j2);
-		System.out.println("jeu V1" + jeu.toString() + System.lineSeparator());
-		Plateau jeu2 = jeu;
-		System.out.println("jeu2" + jeu.toString() + System.lineSeparator());
-		System.out.println("jeu V2" + jeu.toString() + System.lineSeparator());
 	}
 
 }

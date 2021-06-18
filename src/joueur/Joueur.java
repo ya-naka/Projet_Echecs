@@ -33,7 +33,7 @@ public class Joueur implements IJoueur{
 			}while(!saisieOk);
 			Deplacement dep = new Deplacement(plateau, saisie);
 			if(deplacementOk = dep.estDeplacementValide()) {
-				dep.deplacer();
+				plateau.deplacer(dep);
 			}
 		}while(!deplacementOk);
 	}

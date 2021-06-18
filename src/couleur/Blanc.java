@@ -1,6 +1,6 @@
 package couleur;
 
-public class Blanc implements ICouleur{
+public class Blanc extends Couleur{
 
 	@Override
 	public boolean estBlanc() {

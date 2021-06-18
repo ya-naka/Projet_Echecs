@@ -16,23 +16,64 @@ public class Plateau {
 	public static final int NB_CASES = 64;
 	private Case[] plateau;
 	private IJoueur j1, j2;
-	private List<Deplacement> historique;
+	private List<Historique> historique;
+	private List<IPiece> rois;
 	
 	public Plateau(IJoueur j1, IJoueur j2) {
 		this.plateau = new Case[NB_CASES];
 		for(int i = 0; i < NB_CASES; i++) {
 			this.plateau[i] = new Case(i, null);
 		}
-		
-		this.plateau[0] = new Case(0, new Roi(0, new Blanc()));
-		this.plateau[63] = new Case(63, new Roi(63, new Noir()));
 		this.j1 = j1;
 		this.j2 = j2;
 		this.historique = new ArrayList<>();
+		this.rois = new ArrayList<>();
+		//A CHANGER POUR QUE CE SOIT ALEATOIRE
+		this.plateau[0] = new Case(0, new Roi(0, new Blanc()));
+		this.rois.add(getCase(0).getPiece());
+		this.plateau[63] = new Case(63, new Roi(63, new Noir()));
+		this.rois.add(getCase(63).getPiece());
+		//placerPieces();
+	}
+	//place aléatoirement les pièces sur le plateau au début de la partie
+	public void placerPieces() {
+		
 	}
 	
 	public Case getCase(int index) {
 		return this.plateau[index];
+	}
+	
+	public void deplacer(Deplacement deplacement) {
+		//ajoute le déplacement dans l'historique de la partie
+		this.historique.add(new Historique(this, deplacement));
+		//récupère la pièce à déplacer
+		IPiece pieceDeplacee = getCase(deplacement.getCoordActuelle()).getPiece();
+		//change les coordonnées de la pièce à déplacer
+		pieceDeplacee.deplacer(this, deplacement.getNouvelleCoord());
+		//met la pièce à déplacer sur sa nouvelle case
+		getCase(deplacement.getNouvelleCoord()).setPiece(pieceDeplacee);
+		//vide la case de départ
+		getCase(deplacement.getCoordActuelle()).setPiece(null);
+	}
+
+	public boolean estEchec(ICouleur couleur) {
+		return false;
+	}
+	
+	//revient à l'état de la partie avant le dernier coup
+	public void revenirEnArriere() {
+		if(!this.historique.isEmpty()) {
+			Historique derniereEntree = this.historique.remove(0);
+			//récupère la pièce qui a été jouée
+			IPiece pieceDeplacee = getCase(derniereEntree.getDeplacement().getNouvelleCoord()).getPiece();
+			//change la position de la pièce qui a été jouée
+			pieceDeplacee.deplacer(this, derniereEntree.getDeplacement().getCoordActuelle());
+			//remet la pièce qui a été prise sur le plateau, null si aucun pièce n'avait été prise
+			getCase(derniereEntree.getDeplacement().getNouvelleCoord()).setPiece(derniereEntree.getPiecePrise());
+			//place la pièce jouée sur sa position précédente sur le plateau
+			getCase(derniereEntree.getDeplacement().getCoordActuelle()).setPiece(pieceDeplacee);
+		}
 	}
 	
 	public String toString() {
@@ -55,13 +96,4 @@ public class Plateau {
 		return plateau;
 	}
 
-	public void deplacer(Deplacement deplacement) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean estEchec(ICouleur couleur) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

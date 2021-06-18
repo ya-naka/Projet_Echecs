@@ -29,13 +29,26 @@ public class Deplacement {
 		
 		//vérifie que les règles des déplacement des pieces soient respectées
 		IPiece piece = this.plateau.getCase(this.coordCaseActuelle).getPiece();
-		if(!piece.getDeplacementsPossibles(this.plateau).contains(this)) {
+		boolean depPossible = false;
+		for(Deplacement dep : piece.getDeplacementsPossibles(this.plateau)) {
+			if(dep.getCoordActuelle() == this.coordCaseActuelle && dep.getNouvelleCoord() == this.coordNouvelleCase) {
+				depPossible = true;
+				break;
+			}
+		}
+		if(!depPossible) {
 			return false;
 		}
+		
 		//vérifie que les règles du plateau soient respectées
 		Plateau plateauCopie = this.plateau;
+		//effectue le déplacement
 		plateauCopie.deplacer(this);
-		return !plateauCopie.estEchec(piece.getCouleur());
+		//vérifie si le déplacement engendre un échec dans le camp de la pièce déplacée
+		boolean estEchec = plateauCopie.estEchec(piece.getCouleur());
+		//revient à l'état précédent de la partie
+		plateauCopie.revenirEnArriere();
+		return !estEchec;
 	}
 	
 	public void deplacer() {
