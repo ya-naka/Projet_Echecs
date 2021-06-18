@@ -35,6 +35,12 @@ public class Plateau {
 		this.rois.add(getCase(63).getPiece());
 		//placerPieces();
 	}
+	
+	//vérifie si le paramètre est une coordonnée valide du tableau de cases
+	public static boolean estCaseValide(int position) {
+		return position >= 0 && position < NB_CASES;
+	}
+	
 	//place aléatoirement les pièces sur le plateau au début de la partie
 	public void placerPieces() {
 		

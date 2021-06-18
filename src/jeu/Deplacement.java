@@ -16,6 +16,7 @@ public class Deplacement {
 	}
 	
 	public Deplacement(Plateau plateau, int positionActuelle, int nouvellePosition) {
+		assert(Plateau.estCaseValide(positionActuelle) && Plateau.estCaseValide(nouvellePosition));
 		this.coordCaseActuelle = positionActuelle;
 		this.coordNouvelleCase = nouvellePosition;
 		this.plateau = plateau;
@@ -31,7 +32,7 @@ public class Deplacement {
 		IPiece piece = this.plateau.getCase(this.coordCaseActuelle).getPiece();
 		boolean depPossible = false;
 		for(Deplacement dep : piece.getDeplacementsPossibles(this.plateau)) {
-			if(dep.getCoordActuelle() == this.coordCaseActuelle && dep.getNouvelleCoord() == this.coordNouvelleCase) {
+			if(dep.equals(this)) {
 				depPossible = true;
 				break;
 			}
@@ -50,10 +51,10 @@ public class Deplacement {
 		plateauCopie.revenirEnArriere();
 		return !estEchec;
 	}
-	
+	/*
 	public void deplacer() {
 		assert(estDeplacementValide());
-	}
+	}*/
 	
 	public int getCoordActuelle() {
 		return this.coordCaseActuelle;

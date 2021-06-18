@@ -11,13 +11,13 @@ public abstract class Piece implements IPiece{
 	private ICouleur couleur;
 	
 	public Piece(int position, ICouleur couleur) {
-		this.position = position;
+		setPosition(position);
 		this.couleur = couleur;
 	}
 	
 	public void deplacer(Plateau plateau, int position){
 		assert(peutDeplacer(plateau, position));
-		this.position = position;
+		setPosition(position);
 	}
 	
 	public abstract List<Deplacement> getDeplacementsPossibles(Plateau plateau);
@@ -34,6 +34,11 @@ public abstract class Piece implements IPiece{
 	
 	public int getPosition() {
 		return this.position;
+	}
+	
+	private void setPosition(int position) {
+		assert(Plateau.estCaseValide(position));
+		this.position = position;
 	}
 	
 	public ICouleur getCouleur() {
