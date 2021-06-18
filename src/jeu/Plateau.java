@@ -13,27 +13,21 @@ import pieces.Roi;
 import pieces.Tour;
 
 public class Plateau {
-	public static final int NB_CASES = 64;
+	private static final int NB_CASES = 64;
 	private Case[] plateau;
 	private IJoueur j1, j2;
 	private List<Historique> historique;
 	private List<IPiece> rois;
 	
 	public Plateau(IJoueur j1, IJoueur j2) {
-		this.plateau = new Case[NB_CASES];
-		for(int i = 0; i < NB_CASES; i++) {
-			this.plateau[i] = new Case(i, null);
-		}
 		this.j1 = j1;
 		this.j2 = j2;
 		this.historique = new ArrayList<>();
 		this.rois = new ArrayList<>();
 		//A CHANGER POUR QUE CE SOIT ALEATOIRE
-		this.plateau[0] = new Case(0, new Roi(0, new Blanc()));
-		this.rois.add(getCase(0).getPiece());
-		this.plateau[63] = new Case(63, new Roi(63, new Noir()));
-		this.rois.add(getCase(63).getPiece());
-		//placerPieces();
+		this.plateau = new Case[NB_CASES];
+		initFixe(new ArrayList<>());
+		//initAleatoire();
 	}
 	
 	//vérifie si le paramètre est une coordonnée valide du tableau de cases
@@ -41,9 +35,27 @@ public class Plateau {
 		return position >= 0 && position < NB_CASES;
 	}
 	
+	private void viderPlateau() {
+		for(int i = 0; i < NB_CASES; i++) {
+			this.plateau[i] = new Case(i, null);
+		}
+	}
+	
 	//place aléatoirement les pièces sur le plateau au début de la partie
-	public void placerPieces() {
-		
+	public void initAleatoire() {
+		viderPlateau();
+		//ajouter les pièces aléatoirement
+	}
+	
+	//place les pièces selon un ordre fixé
+	public void initFixe(List<IPiece> pieces) {
+		viderPlateau();
+		for(IPiece piece : pieces) {
+			getCase(piece.getPosition()).setPiece(piece);
+			if(piece.getClass() == Roi.class) {
+				this.rois.add(piece);
+			}
+		}
 	}
 	
 	public Case getCase(int index) {

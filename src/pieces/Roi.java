@@ -27,7 +27,7 @@ public class Roi extends Piece{
 		
 		for(int i = 0; i < coordDeplacements.length; i++) {
 			int position = coordDeplacements[i]+super.getPosition();
-			if(position < Plateau.NB_CASES && position >= 0 && estCaseAdjacente(coordDeplacements[i])) {
+			if(Plateau.estCaseValide(position) && estCaseAdjacente(coordDeplacements[i])) {
 				if(!plateau.getCase(position).estOccupée()) {
 					depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
 				}else if(!plateau.getCase(position).getPiece().getCouleur().estMemeCouleur(super.getCouleur())) {
@@ -41,11 +41,11 @@ public class Roi extends Piece{
 	public boolean estCaseAdjacente(int coordDeplacement) {
 		//si première colonne
 		if(super.getPosition()%8 == 0) {
-			return ! (coordDeplacement == -1 || coordDeplacement == -7 || coordDeplacement == -9);
+			return ! (coordDeplacement == 7 || coordDeplacement == -1 || coordDeplacement == -9);
 		}
 		//si dernière colonne
 		if(super.getPosition()%8 == 7) {
-			return ! (coordDeplacement == 1 || coordDeplacement == 7 || coordDeplacement == 9);
+			return ! (coordDeplacement == -7 || coordDeplacement == 1 || coordDeplacement == 9);
 		}
 		return true;
 	}

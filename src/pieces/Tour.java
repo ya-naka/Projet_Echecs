@@ -26,33 +26,28 @@ public class Tour extends Piece{
 		List<Deplacement> depPossibles = new ArrayList<>();
 		
 		for(int i = 0; i < coordDeplacements.length; i++) {
-			int position = super.getPosition();
+			int position = super.getPosition() + coordDeplacements[i];
 			//on inspecte chaque case se trouvant sur la trajectoire
-			while(position >= 0 && position < Plateau.NB_CASES) {
-				position += coordDeplacements[i];
-				if(estSurTrajectoire(coordDeplacements[i])) {
+			while(Plateau.estCaseValide(position)) {
+				if(estSurTrajectoire(position, coordDeplacements[i])) {
 					if(!plateau.getCase(position).estOccupée()) {
 						depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
-					}else if(!plateau.getCase(position).getPiece().getCouleur().estMemeCouleur(super.getCouleur())) {
-						depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
+					}else {
+						if(!plateau.getCase(position).getPiece().getCouleur().estMemeCouleur(super.getCouleur())) {
+							depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
+						}
 						break;
 					}
 				}
+				position += coordDeplacements[i];
 			}
 		}
 		return depPossibles;
 	}
 	
-	public boolean estSurTrajectoire(int coordDeplacement) {
-		//si première colonne
-		if(super.getPosition()%8 == 0) {
-			return !(coordDeplacement == -1);
-		}
-		//si dernière colonne
-		if(super.getPosition()%8 == 7) {
-			return !(coordDeplacement == 1);
-		}
-		return true;
+	public boolean estSurTrajectoire(int position, int coordDeplacement) {
+		//vérifie si la nouvelle position est sur la même ligne ou colonne de la position initiale
+		return (position/8 == super.getPosition()/8) || (position%8 == super.getPosition()%8);
 	}
 
 }
