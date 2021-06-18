@@ -64,6 +64,11 @@ public class Plateau {
 	}
 
 	public boolean estEchec(ICouleur couleur) {
+		//- récupérer le roi qui correspond à la couleur passée en paramètre
+		//- parcourir le plateau
+		//- pour chaque pièce du camp adverse, vérifier si un de ses déplacements possibles
+		//coincide avec la case du roi
+		//- si c'est le cas, retourner vrai
 		return false;
 	}
 	
