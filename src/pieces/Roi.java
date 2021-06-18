@@ -41,11 +41,11 @@ public class Roi extends Piece{
 	public boolean estCaseAdjacente(int coordDeplacement) {
 		//si première colonne
 		if(super.getPosition()%8 == 0) {
-			return coordDeplacement == -1 || coordDeplacement == -7 || coordDeplacement == -9;
+			return ! (coordDeplacement == -1 || coordDeplacement == -7 || coordDeplacement == -9);
 		}
 		//si dernière colonne
 		if(super.getPosition()%8 == 7) {
-			return coordDeplacement == 1 || coordDeplacement == 7 || coordDeplacement == 9;
+			return ! (coordDeplacement == 1 || coordDeplacement == 7 || coordDeplacement == 9);
 		}
 		return true;
 	}

@@ -15,7 +15,7 @@ public class SaisieUtils {
 	
 	public static boolean estColonneValide(char colonne) {
 		//conversion numérique de la colonne
-		int col = charToInt(colonne);
+		int col = charToInt(Character.toLowerCase(colonne));
 		return (col >= 97 && col <= 104);
 	}
 	
