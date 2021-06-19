@@ -86,10 +86,23 @@ public class Plateau {
 
 	public boolean estEchec(ICouleur couleur) {
 		//- récupérer le roi qui correspond à la couleur passée en paramètre
-		//- parcourir le plateau
-		//- pour chaque pièce du camp adverse, vérifier si un de ses déplacements possibles
-		//coincide avec la case du roi
-		//- si c'est le cas, retourner vrai
+		IPiece roi = getRoi(couleur);
+		if(roi != null) {
+			//- parcourir le plateau
+			for(int i = 0; i < NB_CASES; i++) {
+				if(getCase(i).estOccupée()) {
+					//- pour chaque pièce du camp adverse, vérifier si un de ses déplacements possibles
+					//coincide avec la case du roi
+					if(!getCase(i).getPiece().getCouleur().estMemeCouleur(roi.getCouleur())) {
+						for(Deplacement dep : getCase(i).getPiece().getDeplacementsPossibles(this)) {
+							if(roi.getPosition() == dep.getNouvelleCoord()) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
 		return false;
 	}
 	
