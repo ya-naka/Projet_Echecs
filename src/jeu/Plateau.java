@@ -62,6 +62,15 @@ public class Plateau {
 		return this.plateau[index];
 	}
 	
+	public IPiece getRoi(ICouleur couleur) {
+		for(IPiece roi : this.rois) {
+			if(roi.getCouleur().estMemeCouleur(couleur)) {
+				return roi;
+			}
+		}
+		return null;
+	}
+	
 	public void deplacer(Deplacement deplacement) {
 		//ajoute le déplacement dans l'historique de la partie
 		this.historique.add(new Historique(this, deplacement));
