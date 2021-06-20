@@ -117,6 +117,10 @@ public class Plateau {
 		}
 		return false;
 	}
+
+	public boolean estPat(ICouleur couleur) {
+		return false;
+	}
 	
 	//revient à l'état de la partie avant le dernier coup
 	public void revenirEnArriere() {

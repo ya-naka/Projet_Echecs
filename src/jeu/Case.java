@@ -21,7 +21,9 @@ public class Case {
 	}
 	
 	public void setPiece(IPiece piece) {
-		assert(piece.getPosition() == getCoordonnée());
+		if(piece != null) {
+			assert(piece.getPosition() == getCoordonnée());
+		}
 		this.piece = piece;
 	}
 	
