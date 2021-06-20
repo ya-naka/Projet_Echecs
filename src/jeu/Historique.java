@@ -9,7 +9,8 @@ public class Historique {
 	
 	public Historique(Plateau plateau, Deplacement deplacement) {
 		this.deplacement = deplacement;
-		this.piecePrise = plateau.getCase(deplacement.getNouvelleCoord()).getPiece();
+		this.piecePrise = plateau.getCase(deplacement.getNouvelleCoord()).estOccupée() ? 
+				plateau.getCase(deplacement.getNouvelleCoord()).getPiece() : null;
 	}
 	
 	public Deplacement getDeplacement() {
