@@ -12,7 +12,7 @@ import pieces.Roi;
 class CaseTest {
 
 	@Test
-	void CaseTest() {
+	void caseTest() {
 		IPiece piece = new Roi(0, new Noir());
 		Case c = new Case(piece.getPosition(), piece);
 		assertTrue(c.estOccupée());
