@@ -129,17 +129,39 @@ class PlateauTest {
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
 		plateau.initFixe(pieces);
+		assertTrue(plateau.getRoi(noir) == pieces.get(0));
+		assertTrue(plateau.getCase(0).getPiece() == pieces.get(0));
+		plateau.revenirEnArriere();
+		//on vérifie que le roi n'a pas été retiré de la liste des rois
+		assertTrue(plateau.getRoi(noir) == pieces.get(0));
+		//on vérifie que l'état du plateau n'a changé, étant donné qu'aucun déplacement n'a été effectué
+		assertTrue(plateau.getCase(0).getPiece() == pieces.get(0));
+		//ajout d'une tour blanche en case 6
+		pieces.add(new Tour(6, blanc));
+		plateau.initFixe(pieces);
+		assertTrue(plateau.getCase(6).getPiece() == pieces.get(1));
+		//on déplace la tour sur la case 5
+		plateau.deplacer(new Deplacement(plateau, 6, 5));
+		assertTrue(plateau.getCase(5).getPiece() == pieces.get(1));
+		//on revient à l'état précédent de la partie, la tour revient en case 6
+		plateau.revenirEnArriere();
+		assertTrue(plateau.getCase(6).getPiece() == pieces.get(1));
+		assertFalse(plateau.getCase(5).getPiece() == pieces.get(1));
+		assertFalse(plateau.getCase(5).estOccupée());
+		assertTrue(plateau.getCase(5).getPiece() == null);
+		//on déplace la tour blanche sur la case du roi noir
+		plateau.deplacer(new Deplacement(plateau, 6, 0));
+		//on vérifie que le roi a été retiré de la liste des rois
+		assertFalse(plateau.getRoi(noir) == pieces.get(0));
+		assertTrue(plateau.getCase(6).getPiece() == null);
+		assertFalse(plateau.getCase(6).estOccupée());
+		assertTrue(plateau.getCase(0).getPiece() == pieces.get(1));
+		//on revient à l'état précédent de la partie, le roie st en case 0 et la tour en case 6
+		plateau.revenirEnArriere();
+		//on vérifie que le roi est de nouveau dans la liste des rois
+		assertTrue(plateau.getRoi(noir) == pieces.get(0));
+		assertTrue(plateau.getCase(6).getPiece() == pieces.get(1));
 		assertTrue(plateau.getCase(0).getPiece() == pieces.get(0));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
