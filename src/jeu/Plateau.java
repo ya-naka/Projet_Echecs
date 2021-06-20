@@ -47,6 +47,8 @@ public class Plateau {
 	
 	//place les pièces selon un ordre fixé
 	public void initFixe(List<IPiece> pieces) {
+		this.historique = new ArrayList<>();
+		this.rois = new ArrayList<>();
 		viderPlateau();
 		for(IPiece piece : pieces) {
 			getCase(piece.getPosition()).setPiece(piece);
@@ -77,9 +79,10 @@ public class Plateau {
 		//ajoute le déplacement dans l'historique de la partie
 		this.historique.add(new Historique(this, deplacement));
 		//si un roi se trouve sur la case d'arrivée, on le retire de la liste des rois de la partie
-		if(getCase(deplacement.getNouvelleCoord()).estOccupée()) {
-			if(getCase(deplacement.getNouvelleCoord()).getPiece().getClass() == Roi.class) {
-				this.rois.remove(getCase(deplacement.getNouvelleCoord()).getPiece());
+		IPiece piecePrise = this.historique.get(this.historique.size()-1).getPiecePrise();
+		if(piecePrise != null) {
+			if(piecePrise.getClass() == Roi.class) {
+				this.rois.remove(getRoi(piecePrise.getCouleur()));
 			}
 		}
 		//récupère la pièce à déplacer

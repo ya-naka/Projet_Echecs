@@ -4,8 +4,8 @@ import pieces.IPiece;
 
 public class Historique {
 	private Plateau plateau;
-	private Deplacement deplacement;
-	private IPiece piecePrise;
+	private final Deplacement deplacement;
+	private final IPiece piecePrise;
 	
 	public Historique(Plateau plateau, Deplacement deplacement) {
 		this.deplacement = deplacement;

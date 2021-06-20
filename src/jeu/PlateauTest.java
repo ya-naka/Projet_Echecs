@@ -102,13 +102,34 @@ class PlateauTest {
 		assertTrue(plateau.getCase(1).getPiece().getPosition() == plateau.getRoi(noir).getPosition());
 		//ajout d'une tour blanche en case 4 (même ligne que le roi noir)
 		pieces.add(new Tour(4, blanc));
+		//ajout d'un roi blanc en case 63
+		pieces.add(new Roi(63, blanc));
 		plateau.initFixe(pieces);
 		assertTrue(plateau.getCase(4).getPiece().equals(pieces.get(1)));
 		//on déplace la tour blanche sur la case du roi noir
+		assertTrue(plateau.getCase(1).getPiece() == pieces.get(0));
+		assertTrue(plateau.getCase(4).getPiece() == pieces.get(1));
+		//on vérifie que le roi noir est bien dans la liste des rois du plateau
+		assertTrue(plateau.getRoi(noir) == pieces.get(0));
 		plateau.deplacer(new Deplacement(plateau, 4, 1));
 		assertFalse(plateau.getCase(4).estOccupée());
 		assertTrue(plateau.getCase(1).getPiece().equals(pieces.get(1)));
+		//on vérifie que le roi noir a bien été enlevé de la liste des rois
 		assertTrue(plateau.getRoi(noir) == null);
+		//on vérifie que le roi blanc est toujours présent dans la liste des rois
+		assertTrue(plateau.getRoi(blanc) == pieces.get(2));
+	}
+	
+	@Test
+	void revenirEnArriereTest() {
+		Plateau plateau = new Plateau();
+		ICouleur noir = new Noir();
+		ICouleur blanc = new Blanc();
+		List<IPiece> pieces = new ArrayList<>();
+		//ajout d'un roi noir en case 0
+		pieces.add(new Roi(0, noir));
+		plateau.initFixe(pieces);
+		assertTrue(plateau.getCase(0).getPiece() == pieces.get(0));
 	}
 	
 	
