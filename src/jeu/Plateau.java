@@ -15,13 +15,10 @@ import pieces.Tour;
 public class Plateau {
 	private static final int NB_CASES = 64;
 	private Case[] plateau;
-	private IJoueur j1, j2;
 	private List<Historique> historique;
 	private List<IPiece> rois;
 	
-	public Plateau(IJoueur j1, IJoueur j2) {
-		this.j1 = j1;
-		this.j2 = j2;
+	public Plateau() {
 		this.historique = new ArrayList<>();
 		this.rois = new ArrayList<>();
 		//A CHANGER POUR QUE CE SOIT ALEATOIRE
@@ -35,6 +32,7 @@ public class Plateau {
 		return position >= 0 && position < NB_CASES;
 	}
 	
+	//enlève toutes les pièces du plateau
 	private void viderPlateau() {
 		for(int i = 0; i < NB_CASES; i++) {
 			this.plateau[i] = new Case(i, null);
@@ -62,6 +60,7 @@ public class Plateau {
 		return this.plateau[index];
 	}
 	
+	//retourne le roi de la couleur demandée
 	public IPiece getRoi(ICouleur couleur) {
 		for(IPiece roi : this.rois) {
 			if(roi.getCouleur().estMemeCouleur(couleur)) {
@@ -71,9 +70,18 @@ public class Plateau {
 		return null;
 	}
 	
+	//ajoute le déplacement dans l'historique et déplace la pièce selon le déplacement envoyé
 	public void deplacer(Deplacement deplacement) {
+		//vérifie que la pièce sélectionnée peut être déplacée
+		assert(getCase(deplacement.getCoordActuelle()).getPiece().peutDeplacer(this, deplacement.getNouvelleCoord()));
 		//ajoute le déplacement dans l'historique de la partie
 		this.historique.add(new Historique(this, deplacement));
+		//si un roi se trouve sur la case d'arrivée, on le retire de la liste des rois de la partie
+		if(getCase(deplacement.getNouvelleCoord()).estOccupée()) {
+			if(getCase(deplacement.getNouvelleCoord()).getPiece().getClass() == Roi.class) {
+				this.rois.remove(getCase(deplacement.getNouvelleCoord()).getPiece());
+			}
+		}
 		//récupère la pièce à déplacer
 		IPiece pieceDeplacee = getCase(deplacement.getCoordActuelle()).getPiece();
 		//change les coordonnées de la pièce à déplacer
@@ -84,6 +92,7 @@ public class Plateau {
 		getCase(deplacement.getCoordActuelle()).setPiece(null);
 	}
 
+	//retorune vrai si le camp envoyée en paramètre est en échec
 	public boolean estEchec(ICouleur couleur) {
 		//- récupérer le roi qui correspond à la couleur passée en paramètre
 		IPiece roi = getRoi(couleur);
@@ -116,11 +125,18 @@ public class Plateau {
 			pieceDeplacee.deplacer(this, derniereEntree.getDeplacement().getCoordActuelle());
 			//remet la pièce qui a été prise sur le plateau, null si aucun pièce n'avait été prise
 			getCase(derniereEntree.getDeplacement().getNouvelleCoord()).setPiece(derniereEntree.getPiecePrise());
+			//si la pièce qui avait été prise est un roi, on l'ajoute à la liste des rois de la partie
+			if(derniereEntree.getPiecePrise() != null) {
+				if(derniereEntree.getPiecePrise().getClass() == Roi.class) {
+					this.rois.add(derniereEntree.getPiecePrise());
+				}
+			}
 			//place la pièce jouée sur sa position précédente sur le plateau
 			getCase(derniereEntree.getDeplacement().getCoordActuelle()).setPiece(pieceDeplacee);
 		}
 	}
 	
+	//affichage du plateau
 	public String toString() {
 		String plateau;
 		String caractere;

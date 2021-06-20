@@ -22,6 +22,7 @@ public class Deplacement {
 		this.plateau = plateau;
 	}
 	
+	//vérifie si le déplacement respecte les règles du jeu
 	public boolean estDeplacementValide() {
 		//vérifie qu'une pièce se trouve sur la case de départ
 		if(!this.plateau.getCase(this.coordCaseActuelle).estOccupée()) {
@@ -51,10 +52,6 @@ public class Deplacement {
 		plateauCopie.revenirEnArriere();
 		return !estEchec;
 	}
-	/*
-	public void deplacer() {
-		assert(estDeplacementValide());
-	}*/
 	
 	public int getCoordActuelle() {
 		return this.coordCaseActuelle;

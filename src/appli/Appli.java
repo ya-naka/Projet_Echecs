@@ -42,7 +42,7 @@ public class Appli {
 				break;
 		}
 		
-		Plateau jeu = new Plateau(j1, j2);
+		Plateau jeu = new Plateau();
 		System.out.println(jeu.toString());
 	}
 
