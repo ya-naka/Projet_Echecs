@@ -12,4 +12,8 @@ public class Blanc extends Couleur{
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "Blanc";
+	}
 }

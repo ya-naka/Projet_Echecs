@@ -40,7 +40,7 @@ public class Plateau {
 	//créer une fabrique pour gérer la création des pièces ?
 	//place aléatoirement les pièces sur le plateau au début de la partie
 	public void initAleatoire() {
-		List<IPiece> pieces = new ArrayList<>();
+		
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
 		
@@ -48,6 +48,7 @@ public class Plateau {
 		Random r = new Random();
 		
 		do {
+			List<IPiece> pieces = new ArrayList<>();
 			//ajout roi noir
 			int randNum = r.nextInt(NB_CASES);
 			pieces.add(new Roi(randNum, noir));
@@ -70,7 +71,8 @@ public class Plateau {
 				pieces.add(new Tour(randNum, noir));
 			}
 			initFixe(pieces);
-		}while(estPat(blanc));//le camp qui commence la partie doit pouvoir jouer au moins 1 coup
+		}while(estPat(blanc) || estEchec(noir));//le camp qui commence la partie doit pouvoir jouer au moins 1 coup
+							  //le camp adverse ne doit pas être en échec dès le 1er coup
 		
 	}
 	
@@ -172,7 +174,7 @@ public class Plateau {
 	//revient à l'état de la partie avant le dernier coup
 	public void revenirEnArriere() {
 		if(!this.historique.isEmpty()) {
-			Historique derniereEntree = this.historique.remove(0);
+			Historique derniereEntree = this.historique.remove(this.historique.size()-1);
 			//récupère la pièce qui a été jouée
 			IPiece pieceDeplacee = getCase(derniereEntree.getDeplacement().getNouvelleCoord()).getPiece();
 			//change la position de la pièce qui a été jouée

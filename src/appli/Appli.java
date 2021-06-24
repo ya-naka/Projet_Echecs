@@ -49,22 +49,20 @@ public class Appli {
 		Plateau plateau = new Plateau();
 		System.out.println(plateau.toString());
 		do {
-			if(plateau.estEchec(joueurActif.getCouleur())) {
-				System.out.println("Attention, " + joueurActif.getCouleur().getClass() + " est échec !");
+			boolean estPat = plateau.estPat(joueurActif.getCouleur());
+			if(estPat) {
+				System.out.println(joueurActif.getCouleur().toString() + " ne peut plus jouer.\n"
+						+ joueurActif.getCouleur().toString() + " a perdu");
+				break;
 			}
-			System.out.println("Veuillez saisir un coup (ex: a1b2) :");
+			if(plateau.estEchec(joueurActif.getCouleur())) {
+				System.out.println("Attention, " + joueurActif.getCouleur().toString() + " est échec !");
+			}
+			System.out.println("A " + joueurActif.getCouleur().toString() + " de jouer." + " Veuillez saisir un coup (ex: a1b2) :");
 			joueurActif.jouer(plateau);
 			System.out.println(plateau.toString());
 			joueurActif = joueurActif.getCouleur().estMemeCouleur(j1.getCouleur()) ? j2 : j1;
-			boolean estPat = plateau.estPat(joueurActif.getCouleur());
-			if(estPat) {
-				System.out.println(joueurActif.getCouleur().getClass() + " ne peut plus jouer. Egalité");
-				break;
-			}
-			if(estPat && plateau.estEchec(joueurActif.getCouleur())) {
-				System.out.println(joueurActif.getCouleur().getClass() + " a perdu...");
-				break;
-			}
+			
 		}while(true);
 		
 	}

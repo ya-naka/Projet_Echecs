@@ -11,5 +11,10 @@ public class Noir extends Couleur{
 	public boolean estNoir() {
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "Noir";
+	}
 
 }
