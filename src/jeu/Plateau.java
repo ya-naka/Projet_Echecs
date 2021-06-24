@@ -59,17 +59,18 @@ public class Plateau {
 			}while(getCase(randNum).estOccupée());
 			pieces.add(new Roi(randNum, blanc));
 			initFixe(pieces);
-			//ajout d'une tour, noire ou blanche
+			//ajout d'une tour noire
 			//choix de la case
 			do {
 				randNum = r.nextInt(NB_CASES);
 			}while(getCase(randNum).estOccupée());
-			//choix du camp
-			if(r.nextInt(2) == 0) {
-				pieces.add(new Tour(randNum, blanc));
-			}else {
-				pieces.add(new Tour(randNum, noir));
-			}
+			pieces.add(new Tour(randNum, noir));
+			initFixe(pieces);
+			//ajout d'une tour blanche
+			do {
+				randNum = r.nextInt(NB_CASES);
+			}while(getCase(randNum).estOccupée());
+			pieces.add(new Tour(randNum, blanc));
 			initFixe(pieces);
 		}while(estPat(blanc) || estEchec(noir));
 		//le camp qui commence la partie doit pouvoir jouer au moins 1 coup
