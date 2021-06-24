@@ -16,4 +16,9 @@ public class Ordinateur implements IJoueur{
 		
 	}
 
+	@Override
+	public ICouleur getCouleur() {
+		return this.camp;
+	}
+
 }

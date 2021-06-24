@@ -20,21 +20,30 @@ public class Joueur implements IJoueur{
 		String saisie;
 		boolean saisieOk = false;
 		boolean deplacementOk = false;
-		;
+		Deplacement dep;
 		//vérifie que le pion peut être déplacé
 		do {
 			//vérification de la saisie du joueur
 			do {
 				saisie = sin.nextLine();
 				//Séparer l'affichage console de la classe
-				if(saisieOk = SaisieUtils.estSaisieValide(saisie)) {
+				if(!(saisieOk = SaisieUtils.estSaisieValide(saisie))) {
 					System.out.println("Veuillez saisir un coup valide et/ou 2 cases différentes");
 				}
 			}while(!saisieOk);
-			Deplacement dep = new Deplacement(plateau, saisie);
-			if(deplacementOk = dep.estDeplacementValide()) {
-				plateau.deplacer(dep);
+			dep = new Deplacement(plateau, saisie);
+			deplacementOk = dep.estDeplacementValide(this.camp);
+			System.out.println("deplacementOk = " + dep.toString());
+			if(deplacementOk) {
+				plateau.deplacer(dep, this.camp);
+			}else {
+				System.out.println("Veuillez choisir un coup légal");
 			}
 		}while(!deplacementOk);
+	}
+
+	@Override
+	public ICouleur getCouleur() {
+		return this.camp;
 	}
 }

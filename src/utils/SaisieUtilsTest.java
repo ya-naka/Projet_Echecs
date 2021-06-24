@@ -2,7 +2,12 @@ package utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Scanner;
+
 import org.junit.jupiter.api.Test;
+
+import jeu.Deplacement;
+import jeu.Plateau;
 
 class SaisieUtilsTest {
 
@@ -39,4 +44,12 @@ class SaisieUtilsTest {
 		assertFalse(SaisieUtils.estSaisieValide("b2p1"));
 	}
 
+	@Test
+	void estSaisieValideAvecSaisieTest() {
+		Scanner sin = new Scanner(System.in);
+		//saisie doit être correct
+		String saisie = sin.nextLine();
+		assertTrue(SaisieUtils.estSaisieValide(saisie));
+		System.out.println(new Deplacement(new Plateau(), saisie));
+	}
 }

@@ -1,5 +1,6 @@
 package jeu;
 
+import couleur.ICouleur;
 import pieces.IPiece;
 import utils.SaisieUtils;
 
@@ -23,14 +24,21 @@ public class Deplacement {
 	}
 	
 	//vérifie si le déplacement respecte les règles du jeu
-	public boolean estDeplacementValide() {
+	public boolean estDeplacementValide(ICouleur camp) {
 		//vérifie qu'une pièce se trouve sur la case de départ
-		if(!this.plateau.getCase(this.coordCaseActuelle).estOccupée()) {
+		if(!this.plateau.getCase(getCoordActuelle()).estOccupée()) {
+			System.out.println("case vide");
+			System.out.println(this.plateau.toString());
 			return false;
 		}
 		
 		//vérifie que les règles des déplacement des pieces soient respectées
-		IPiece piece = this.plateau.getCase(this.coordCaseActuelle).getPiece();
+		IPiece piece = this.plateau.getCase(getCoordActuelle()).getPiece();
+		
+		if(!(piece.getCouleur().estMemeCouleur(camp))) {
+			System.out.println("pas meme camp");
+			return false;
+		}
 		boolean depPossible = false;
 		for(Deplacement dep : piece.getDeplacementsPossibles(this.plateau)) {
 			if(dep.equals(this)) {
@@ -39,17 +47,24 @@ public class Deplacement {
 			}
 		}
 		if(!depPossible) {
+			System.out.println("dep pas possible");
 			return false;
 		}
 		
 		//vérifie que les règles du plateau soient respectées
-		Plateau plateauCopie = this.plateau;
+		//Plateau plateauCopie = this.plateau;
 		//effectue le déplacement
-		plateauCopie.deplacer(this);
+		//plateauCopie.deplacer(this, piece.getCouleur());
+		plateau.deplacer(this, piece.getCouleur());
 		//vérifie si le déplacement engendre un échec dans le camp de la pièce déplacée
-		boolean estEchec = plateauCopie.estEchec(piece.getCouleur());
+		//boolean estEchec = plateauCopie.estEchec(piece.getCouleur());
+		boolean estEchec = plateau.estEchec(piece.getCouleur());
 		//revient à l'état précédent de la partie
-		plateauCopie.revenirEnArriere();
+		//plateauCopie.revenirEnArriere();
+		plateau.revenirEnArriere();
+		if(estEchec) {
+			System.out.println("est échec");
+		}
 		return !estEchec;
 	}
 	
@@ -70,4 +85,7 @@ public class Deplacement {
 		return (dep.getCoordActuelle() == this.getCoordActuelle()) && (dep.getNouvelleCoord() == this.getNouvelleCoord());
 	}
 
+	public String toString() {
+		return getCoordActuelle() + "-" + getNouvelleCoord();
+	}
 }

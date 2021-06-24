@@ -2,6 +2,7 @@ package jeu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import couleur.Blanc;
 import couleur.ICouleur;
@@ -17,14 +18,11 @@ public class Plateau {
 	private Case[] plateau;
 	private List<Historique> historique;
 	private List<IPiece> rois;
+	private IJoueur joueurActif, j1, j2;
 	
 	public Plateau() {
-		this.historique = new ArrayList<>();
-		this.rois = new ArrayList<>();
-		//A CHANGER POUR QUE CE SOIT ALEATOIRE
 		this.plateau = new Case[NB_CASES];
-		initFixe(new ArrayList<>());
-		//initAleatoire();
+		initAleatoire();
 	}
 	
 	//vérifie si le paramètre est une coordonnée valide du tableau de cases
@@ -39,10 +37,41 @@ public class Plateau {
 		}
 	}
 	
+	//créer une fabrique pour gérer la création des pièces ?
 	//place aléatoirement les pièces sur le plateau au début de la partie
 	public void initAleatoire() {
-		viderPlateau();
+		List<IPiece> pieces = new ArrayList<>();
+		ICouleur noir = new Noir();
+		ICouleur blanc = new Blanc();
+		
 		//ajouter les pièces aléatoirement
+		Random r = new Random();
+		
+		do {
+			//ajout roi noir
+			int randNum = r.nextInt(NB_CASES);
+			pieces.add(new Roi(randNum, noir));
+			initFixe(pieces);
+			//ajout roi blanc
+			do {
+				randNum = r.nextInt(NB_CASES);
+			}while(getCase(randNum).estOccupée());
+			pieces.add(new Roi(randNum, blanc));
+			initFixe(pieces);
+			//ajout d'une tour, noire ou blanche
+			//choix de la case
+			do {
+				randNum = r.nextInt(NB_CASES);
+			}while(getCase(randNum).estOccupée());
+			//choix du camp
+			if(r.nextInt(2) == 0) {
+				pieces.add(new Tour(randNum, blanc));
+			}else {
+				pieces.add(new Tour(randNum, noir));
+			}
+			initFixe(pieces);
+		}while(estPat(blanc));//le camp qui commence la partie doit pouvoir jouer au moins 1 coup
+		
 	}
 	
 	//place les pièces selon un ordre fixé
@@ -73,9 +102,12 @@ public class Plateau {
 	}
 	
 	//ajoute le déplacement dans l'historique et déplace la pièce selon le déplacement envoyé
-	public void deplacer(Deplacement deplacement) {
+	public void deplacer(Deplacement deplacement, ICouleur camp) {
+		//vérifie qu'il y a une pièce sur la case sélectionnée
+		assert(getCase(deplacement.getCoordActuelle()).estOccupée());
 		//vérifie que la pièce sélectionnée peut être déplacée
 		assert(getCase(deplacement.getCoordActuelle()).getPiece().peutDeplacer(this, deplacement.getNouvelleCoord()));
+		assert(getCase(deplacement.getCoordActuelle()).getPiece().getCouleur().estMemeCouleur(camp));
 		//ajoute le déplacement dans l'historique de la partie
 		this.historique.add(new Historique(this, deplacement));
 		//si un roi se trouve sur la case d'arrivée, on le retire de la liste des rois de la partie
@@ -119,7 +151,22 @@ public class Plateau {
 	}
 
 	public boolean estPat(ICouleur couleur) {
-		return false;
+		//pour chaque déplacement des pièces alliées, si au moins un est valide 
+		//alors retourne faux
+		for(int i = 0; i < NB_CASES; i++) {
+			if(getCase(i).estOccupée()) {
+				IPiece piece = getCase(i).getPiece();
+				if(piece.getCouleur().estMemeCouleur(couleur)) {
+					for(Deplacement dep : piece.getDeplacementsPossibles(this)) {
+						if(dep.estDeplacementValide(couleur)) {
+							return false;
+						}
+					}
+				}
+				
+			}
+		}
+		return true;
 	}
 	
 	//revient à l'état de la partie avant le dernier coup

@@ -34,10 +34,11 @@ class PlateauTest {
 		Plateau plateau = new Plateau();
 		ICouleur blanc = new Blanc();
 		ICouleur noir = new Noir();
+		List<IPiece> pieces = new ArrayList<>();
+		plateau.initFixe(pieces);
 		//aucun roi n'est sur le plateau
 		assertTrue(plateau.getRoi(noir) == null);
 		assertTrue(plateau.getRoi(blanc) == null);
-		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
 		plateau.initFixe(pieces);
@@ -96,7 +97,7 @@ class PlateauTest {
 		assertFalse(plateau.getCase(1).estOccupée());
 		assertTrue(plateau.getCase(0).getPiece().getPosition() == plateau.getRoi(noir).getPosition());
 		//on déplace le roi en case 1
-		plateau.deplacer(new Deplacement(plateau, 0, 1));
+		plateau.deplacer(new Deplacement(plateau, 0, 1), noir);
 		assertTrue(plateau.getCase(1).getPiece().equals(pieces.get(0)));
 		assertFalse(plateau.getCase(0).estOccupée());
 		assertTrue(plateau.getCase(1).getPiece().getPosition() == plateau.getRoi(noir).getPosition());
@@ -111,7 +112,7 @@ class PlateauTest {
 		assertTrue(plateau.getCase(4).getPiece() == pieces.get(1));
 		//on vérifie que le roi noir est bien dans la liste des rois du plateau
 		assertTrue(plateau.getRoi(noir) == pieces.get(0));
-		plateau.deplacer(new Deplacement(plateau, 4, 1));
+		plateau.deplacer(new Deplacement(plateau, 4, 1), blanc);
 		assertFalse(plateau.getCase(4).estOccupée());
 		assertTrue(plateau.getCase(1).getPiece().equals(pieces.get(1)));
 		//on vérifie que le roi noir a bien été enlevé de la liste des rois
@@ -141,7 +142,7 @@ class PlateauTest {
 		plateau.initFixe(pieces);
 		assertTrue(plateau.getCase(6).getPiece() == pieces.get(1));
 		//on déplace la tour sur la case 5
-		plateau.deplacer(new Deplacement(plateau, 6, 5));
+		plateau.deplacer(new Deplacement(plateau, 6, 5), blanc);
 		assertTrue(plateau.getCase(5).getPiece() == pieces.get(1));
 		//on revient à l'état précédent de la partie, la tour revient en case 6
 		plateau.revenirEnArriere();
@@ -150,7 +151,7 @@ class PlateauTest {
 		assertFalse(plateau.getCase(5).estOccupée());
 		assertTrue(plateau.getCase(5).getPiece() == null);
 		//on déplace la tour blanche sur la case du roi noir
-		plateau.deplacer(new Deplacement(plateau, 6, 0));
+		plateau.deplacer(new Deplacement(plateau, 6, 0), blanc);
 		//on vérifie que le roi a été retiré de la liste des rois
 		assertFalse(plateau.getRoi(noir) == pieces.get(0));
 		assertTrue(plateau.getCase(6).getPiece() == null);
@@ -162,6 +163,27 @@ class PlateauTest {
 		assertTrue(plateau.getRoi(noir) == pieces.get(0));
 		assertTrue(plateau.getCase(6).getPiece() == pieces.get(1));
 		assertTrue(plateau.getCase(0).getPiece() == pieces.get(0));
+	}
+	
+	@Test
+	void estPatTest() {
+		Plateau plateau = new Plateau();
+		ICouleur noir = new Noir();
+		ICouleur blanc = new Blanc();
+		List<IPiece> pieces = new ArrayList<>();
+		pieces.add(new Roi(0, noir));
+		pieces.add(new Tour(16, blanc));
+		plateau.initFixe(pieces);
+		assertFalse(plateau.estPat(noir));
+		assertFalse(plateau.estPat(blanc));
+		pieces.add(new Tour(4, blanc));
+		plateau.initFixe(pieces);
+		assertFalse(plateau.estPat(noir));
+		assertFalse(plateau.estPat(blanc));
+		pieces.add(new Tour(11, blanc));
+		plateau.initFixe(pieces);
+		assertTrue(plateau.estPat(noir));
+		assertFalse(plateau.estPat(blanc));
 	}
 
 }
