@@ -49,11 +49,6 @@ public class Appli {
 		Plateau plateau = new Plateau();
 		System.out.println(plateau.toString());
 		do {
-			if(plateau.getRoi(joueurActif.getCouleur()) == null) {
-				System.out.println(joueurActif.getCouleur().toString() + " n'a plus de roi. "
-						+ joueurActif.getCouleur().toString() + " a perdu");
-				break;
-			}
 			boolean estPat = plateau.estPat(joueurActif.getCouleur());
 			if(estPat) {
 				System.out.println(joueurActif.getCouleur().toString() + " ne peut plus jouer.\n"

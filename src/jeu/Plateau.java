@@ -154,6 +154,10 @@ public class Plateau {
 	}
 
 	public boolean estPat(ICouleur couleur) {
+		//vérifie si le roi est présent sur le plateau
+		if(getRoi(couleur) == null) {
+			return true;
+		}
 		//pour chaque déplacement des pièces alliées, si au moins un est valide 
 		//alors retourne faux
 		for(int i = 0; i < NB_CASES; i++) {
