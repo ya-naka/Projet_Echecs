@@ -49,6 +49,11 @@ public class Appli {
 		Plateau plateau = new Plateau();
 		System.out.println(plateau.toString());
 		do {
+			if(plateau.getRoi(joueurActif.getCouleur()) == null) {
+				System.out.println(joueurActif.getCouleur().toString() + " n'a plus de roi. "
+						+ joueurActif.getCouleur().toString() + " a perdu");
+				break;
+			}
 			boolean estPat = plateau.estPat(joueurActif.getCouleur());
 			if(estPat) {
 				System.out.println(joueurActif.getCouleur().toString() + " ne peut plus jouer.\n"
@@ -58,7 +63,8 @@ public class Appli {
 			if(plateau.estEchec(joueurActif.getCouleur())) {
 				System.out.println("Attention, " + joueurActif.getCouleur().toString() + " est échec !");
 			}
-			System.out.println("A " + joueurActif.getCouleur().toString() + " de jouer." + " Veuillez saisir un coup (ex: a1b2) :");
+			System.out.println("A " + joueurActif.getCouleur().toString() + " de jouer."
+					+ " Veuillez saisir un coup (ex: a1b2) :");
 			joueurActif.jouer(plateau);
 			System.out.println(plateau.toString());
 			joueurActif = joueurActif.getCouleur().estMemeCouleur(j1.getCouleur()) ? j2 : j1;

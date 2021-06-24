@@ -71,8 +71,9 @@ public class Plateau {
 				pieces.add(new Tour(randNum, noir));
 			}
 			initFixe(pieces);
-		}while(estPat(blanc) || estEchec(noir));//le camp qui commence la partie doit pouvoir jouer au moins 1 coup
-							  //le camp adverse ne doit pas être en échec dès le 1er coup
+		}while(estPat(blanc) || estEchec(noir));
+		//le camp qui commence la partie doit pouvoir jouer au moins 1 coup
+		//le camp adverse ne doit pas être en échec dès le 1er coup
 		
 	}
 	

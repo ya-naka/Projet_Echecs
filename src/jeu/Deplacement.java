@@ -27,8 +27,6 @@ public class Deplacement {
 	public boolean estDeplacementValide(ICouleur camp) {
 		//vérifie qu'une pièce se trouve sur la case de départ
 		if(!this.plateau.getCase(getCoordActuelle()).estOccupée()) {
-			System.out.println("case vide");
-			System.out.println(this.plateau.toString());
 			return false;
 		}
 		
@@ -36,7 +34,6 @@ public class Deplacement {
 		IPiece piece = this.plateau.getCase(getCoordActuelle()).getPiece();
 		
 		if(!(piece.getCouleur().estMemeCouleur(camp))) {
-			System.out.println("pas meme camp");
 			return false;
 		}
 		boolean depPossible = false;
@@ -47,24 +44,16 @@ public class Deplacement {
 			}
 		}
 		if(!depPossible) {
-			System.out.println("dep pas possible");
 			return false;
 		}
 		
 		//vérifie que les règles du plateau soient respectées
-		//Plateau plateauCopie = this.plateau;
 		//effectue le déplacement
-		//plateauCopie.deplacer(this, piece.getCouleur());
 		plateau.deplacer(this, piece.getCouleur());
 		//vérifie si le déplacement engendre un échec dans le camp de la pièce déplacée
-		//boolean estEchec = plateauCopie.estEchec(piece.getCouleur());
 		boolean estEchec = plateau.estEchec(piece.getCouleur());
 		//revient à l'état précédent de la partie
-		//plateauCopie.revenirEnArriere();
 		plateau.revenirEnArriere();
-		if(estEchec) {
-			System.out.println("est échec");
-		}
 		return !estEchec;
 	}
 	
