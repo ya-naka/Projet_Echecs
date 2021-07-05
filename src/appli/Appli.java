@@ -49,21 +49,29 @@ public class Appli {
 		Plateau plateau = new Plateau();
 		System.out.println(plateau.toString());
 		do {
-			boolean estPat = plateau.estPat(joueurActif.getCouleur());
-			if(estPat) {
-				System.out.println(joueurActif.getCouleur().toString() + " ne peut plus jouer.\n"
-						+ joueurActif.getCouleur().toString() + " a perdu");
+			//vérifie si le joueur a toujours son roi, sinon il a perdu la partie
+			if(plateau.getRoi(joueurActif.getCouleur()) == null) {
+				System.out.println(joueurActif.getCouleur().toString() + " a perdu");
 				break;
 			}
+			boolean estPat = plateau.estPat(joueurActif.getCouleur());
+			//vérifie sir le joueur peut jouer au moins un coup légal, sinon la partie est nulle
+			if(estPat) {
+				System.out.println(joueurActif.getCouleur().toString() + " ne peut plus jouer.\n"
+						+ "La partie est déclarée nulle");
+				break;
+			}
+			//avertit le joueur s'il est en échec
 			if(plateau.estEchec(joueurActif.getCouleur())) {
 				System.out.println("Attention, " + joueurActif.getCouleur().toString() + " est échec !");
 			}
+			//instruction de saisie au joueur
 			System.out.println("A " + joueurActif.getCouleur().toString() + " de jouer."
 					+ " Veuillez saisir un coup (ex: a1b2) :");
 			joueurActif.jouer(plateau);
 			System.out.println(plateau.toString());
+			//changement de joueur
 			joueurActif = joueurActif.getCouleur().estMemeCouleur(j1.getCouleur()) ? j2 : j1;
-			
 		}while(true);
 		
 	}

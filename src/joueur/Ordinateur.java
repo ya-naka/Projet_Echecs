@@ -12,7 +12,10 @@ public class Ordinateur implements IJoueur{
 	
 	@Override
 	public void jouer(Plateau plateau) {
-		// TODO Auto-generated method stub
+		try {
+			Thread.sleep(2);
+			
+		} catch (InterruptedException e) {}
 		
 	}
 
