@@ -17,4 +17,9 @@ public class Noir extends Couleur{
 		return "Noir";
 	}
 
+	@Override
+	public ICouleur getCouleurOpposee() {
+		return new Blanc();
+	}
+
 }

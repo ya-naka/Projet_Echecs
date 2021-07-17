@@ -105,6 +105,30 @@ public class Plateau {
 		return null;
 	}
 	
+	//renvoie toutes les pièces d'un camp présentes sur le plateau
+	public List<IPiece> getPieces(ICouleur couleur){
+		List<IPiece> pieces = new ArrayList<>();
+		for(int i = 0; i < NB_CASES; i++) {
+			if(getCase(i).estOccupée()) {
+				if(getCase(i).getPiece().getCouleur().estMemeCouleur(couleur)) {
+					pieces.add(getCase(i).getPiece());
+				}
+			}
+		}
+		return pieces;
+	}
+	
+	//renvoie tous les déplacements possibles d'un camp
+	public List<Deplacement> getDeplacementsPossibles(ICouleur couleur){
+		List<Deplacement> deplacements = new ArrayList<>();
+		for(IPiece piece : getPieces(couleur)) {
+			for(Deplacement dep : piece.getDeplacementsPossibles(this)) {
+				deplacements.add(dep);
+			}
+		}
+		return deplacements;
+	}
+	
 	//ajoute le déplacement dans l'historique et déplace la pièce selon le déplacement envoyé
 	public void deplacer(Deplacement deplacement, ICouleur camp) {
 		//vérifie qu'il y a une pièce sur la case sélectionnée
@@ -152,6 +176,22 @@ public class Plateau {
 			}
 		}
 		return false;
+	}
+	
+	//vérifie si le camp est en échec et n'est pas en mesure de sauver son roi
+	public boolean estEchecEtMat(ICouleur couleur) {
+		if(!estEchec(couleur)) {
+			return false;
+		}
+		for(Deplacement dep : getRoi(couleur).getDeplacementsPossibles(this)) {
+			deplacer(dep, couleur);
+			if(!estEchec(couleur)) {
+				revenirEnArriere();
+				return false;
+			}
+			revenirEnArriere();
+		}
+		return true;
 	}
 
 	public boolean estPat(ICouleur couleur) {

@@ -16,4 +16,9 @@ public class Blanc extends Couleur{
 	public String toString() {
 		return "Blanc";
 	}
+
+	@Override
+	public ICouleur getCouleurOpposee() {
+		return new Noir();
+	}
 }

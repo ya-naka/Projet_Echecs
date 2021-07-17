@@ -11,5 +11,6 @@ public interface IPiece {
 	List<Deplacement> getDeplacementsPossibles(Plateau plateau);
 	boolean peutDeplacer(Plateau plateau, int nouvellePosition);
 	int getPosition();
+	int getValeur();
 	ICouleur getCouleur();
 }

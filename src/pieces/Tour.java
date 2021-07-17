@@ -9,7 +9,17 @@ import jeu.Plateau;
 
 public class Tour extends Piece{
 	private static final int[] coordDeplacements = {-8, -1, 1, 8};
-
+	private static final int[] valeur = {
+			0, 5, 5, 5, 5, 5, 5, 0,
+			5, 10, 10, 10, 10, 10, 10, 5,
+			5, 10, 10, 10, 10, 10, 10, 5,
+			5, 10, 10, 10, 10, 10, 10, 5,
+			5, 10, 10, 10, 10, 10, 10, 5,
+			5, 10, 10, 10, 10, 10, 10, 5,
+			5, 10, 10, 10, 10, 10, 10, 5,
+			0, 5, 5, 5, 5, 5, 5, 0
+	};
+	
 	public Tour(int position, ICouleur couleur) {
 		super(position, couleur);
 	}
@@ -48,6 +58,11 @@ public class Tour extends Piece{
 	public boolean estSurTrajectoire(int position, int coordDeplacement) {
 		//vérifie si la nouvelle position est sur la même ligne ou colonne de la position initiale
 		return (position/8 == super.getPosition()/8) || (position%8 == super.getPosition()%8);
+	}
+
+	@Override
+	public int getValeur() {
+		return valeur[super.getPosition()];
 	}
 
 }

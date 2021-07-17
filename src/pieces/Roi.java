@@ -9,6 +9,16 @@ import jeu.Plateau;
 
 public class Roi extends Piece{
 	private static final int[] coordDeplacements = {-9, -8, -7, -1, 1, 7, 8, 9}; 
+	private static final int[] valeur = {
+			-50, -30, -30, -30, -30, -30, -30, -50,
+			-30, -30, 0, 0, 0, 0, -30, -30,
+			-30, -10, 20, 30, 30, 20, -10, -30,
+			-30, -10, 30, 40, 40, 30, -10, -30, 
+			-30, -10, 30, 40, 40, 30, -10, -30, 
+			-30, -10, 20, 30, 30, 20, -10, -30,
+			-30, -20, -10, 0, 0, -10, -20, -30,
+			-50, -40, -30, -20, -20, -30, -40, -50
+	};
 
 	public Roi(int position, ICouleur couleur) {
 		super(position, couleur);
@@ -48,6 +58,11 @@ public class Roi extends Piece{
 			return ! (coordDeplacement == -7 || coordDeplacement == 1 || coordDeplacement == 9);
 		}
 		return true;
+	}
+
+	@Override
+	public int getValeur() {
+		return valeur[super.getPosition()];
 	}
 
 }
