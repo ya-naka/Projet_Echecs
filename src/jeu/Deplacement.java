@@ -75,6 +75,7 @@ public class Deplacement {
 	}
 
 	public String toString() {
-		return getCoordActuelle() + "-" + getNouvelleCoord();
+		//convertir en saisie (ex: a1b2)
+		return SaisieUtils.coordonnéeToSaisie(getCoordActuelle()) + "-" + SaisieUtils.coordonnéeToSaisie(getNouvelleCoord());
 	}
 }

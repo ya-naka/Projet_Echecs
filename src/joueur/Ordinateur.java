@@ -5,6 +5,7 @@ import jeu.Deplacement;
 import jeu.Plateau;
 import minimax.EvaluationPlateauParValeur;
 import minimax.Minimax;
+import utils.Message;
 
 public class Ordinateur implements IJoueur{
 	private final ICouleur camp;
@@ -16,11 +17,11 @@ public class Ordinateur implements IJoueur{
 	@Override
 	public void jouer(Plateau plateau) {
 		try {
-			Thread.sleep(200);
-			Minimax minimax = new Minimax(new EvaluationPlateauParValeur(), 2);
-			Deplacement depChoisi = minimax.choisirDeplacement(plateau, this);
+			Thread.sleep(2000);
+			Minimax minimax = new Minimax(new EvaluationPlateauParValeur(), 1); //limitation à une 1 profondeur sinon StackOverflow Erreur
+			Deplacement depChoisi = minimax.choisirCoup(plateau, plateau.getJoueurActif().getCouleur().estBlanc());
 			plateau.deplacer(depChoisi, getCouleur());
-			System.out.println("Ordinateur a joué " + depChoisi.toString());
+			Message.coupJoué(this, depChoisi);
 		} catch (InterruptedException e) {}
 		
 	}

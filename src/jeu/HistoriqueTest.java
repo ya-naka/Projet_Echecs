@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import couleur.Blanc;
 import couleur.ICouleur;
 import couleur.Noir;
+import joueur.Joueur;
 import pieces.IPiece;
 import pieces.Roi;
 import pieces.Tour;
@@ -18,9 +19,9 @@ class HistoriqueTest {
 
 	@Test
 	void piecePriseTest() {
-		Plateau plateau = new Plateau();
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));

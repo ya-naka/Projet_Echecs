@@ -6,8 +6,11 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
+import couleur.Blanc;
+import couleur.Noir;
 import jeu.Deplacement;
 import jeu.Plateau;
+import joueur.Joueur;
 
 class SaisieUtilsTest {
 
@@ -50,6 +53,6 @@ class SaisieUtilsTest {
 		//saisie doit être correct
 		String saisie = sin.nextLine();
 		assertTrue(SaisieUtils.estSaisieValide(saisie));
-		System.out.println(new Deplacement(new Plateau(), saisie));
+		System.out.println(new Deplacement(new Plateau(new Joueur(new Blanc()), new Joueur(new Noir())), saisie));
 	}
 }

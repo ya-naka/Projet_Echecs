@@ -1,6 +1,7 @@
 package utils;
 
 import jeu.Case;
+import jeu.Plateau;
 
 public class SaisieUtils {
 	public static boolean estSaisieValide(String saisie) {
@@ -36,5 +37,14 @@ public class SaisieUtils {
 		char ligne = saisie.charAt(1);
 		assert(estColonneValide(col) && estLigneValide(ligne));
 		return ((ligne-49)*8) + (col-97);
+	}
+	
+	public static String coordonnéeToSaisie(int coord) {
+		if(!Plateau.estCaseValide(coord)) {
+			return "" + coord;
+		}
+		char col = (char)((coord/8) + 97);
+		char li = (char)((coord%8) + 49);
+		return "" + col + li;
 	}
 }

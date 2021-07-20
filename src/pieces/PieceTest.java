@@ -33,7 +33,7 @@ class PieceTest {
 	
 	@Test
 	void peutDeplacerRoiTest() {
-		Plateau plateau = new Plateau();
+		Plateau plateau = new Plateau(new Joueur(new Blanc()), new Joueur(new Noir()));
 		List<IPiece> pieces = new ArrayList<>();
 		pieces.add(new Roi(0, new Noir()));
 		pieces.add(new Roi(15, new Blanc()));
@@ -73,7 +73,7 @@ class PieceTest {
 	
 	@Test
 	void peutDeplacerTourTest() {
-		Plateau plateau = new Plateau();
+		Plateau plateau = new Plateau(new Joueur(new Blanc()), new Joueur(new Noir()));
 		List<IPiece> pieces = new ArrayList<>();
 		pieces.add(new Tour(18, new Noir()));
 		pieces.add(new Tour(7, new Blanc()));

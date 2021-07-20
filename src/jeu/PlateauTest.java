@@ -31,9 +31,9 @@ class PlateauTest {
 	
 	@Test
 	void getRoiTest() {
-		Plateau plateau = new Plateau();
 		ICouleur blanc = new Blanc();
 		ICouleur noir = new Noir();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		plateau.initFixe(pieces);
 		//aucun roi n'est sur le plateau
@@ -55,9 +55,9 @@ class PlateauTest {
 	
 	@Test
 	void estEchecTest() {
-		Plateau plateau = new Plateau();
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
@@ -86,9 +86,9 @@ class PlateauTest {
 	
 	@Test
 	void deplacerTest() {
-		Plateau plateau = new Plateau();
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		//ajour d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
@@ -123,9 +123,9 @@ class PlateauTest {
 	
 	@Test
 	void revenirEnArriereTest() {
-		Plateau plateau = new Plateau();
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
@@ -165,11 +165,12 @@ class PlateauTest {
 		assertTrue(plateau.getCase(0).getPiece() == pieces.get(0));
 	}
 	
+	// revoir le test pour prender en compte les modifications apportées à la fonction
 	@Test
 	void estPatTest() {
-		Plateau plateau = new Plateau();
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		pieces.add(new Roi(0, noir));
 		pieces.add(new Tour(16, blanc));

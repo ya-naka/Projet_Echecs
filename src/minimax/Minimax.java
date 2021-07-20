@@ -9,76 +9,50 @@ import joueur.IJoueur;
 public class Minimax {
 	private IEvaluationPlateau evaluation;
 	private int profondeur;
+	private Deplacement depChoisi;
 	
 	public Minimax(IEvaluationPlateau eval, int profondeur) {
 		assert(profondeur > 0);
 		this.evaluation = eval;
 		this.profondeur = profondeur;
+		this.depChoisi = null;
 	}
 	
-	public Deplacement choisirDeplacement(Plateau plateau, IJoueur joueur) {
-		Deplacement depChoisi = null;
-		if(joueur.getCouleur().estBlanc()) {
-			int valeurMaxTrouvee = Integer.MAX_VALUE;
-			for(Deplacement dep : plateau.getDeplacementsPossibles(joueur.getCouleur())) {
-				plateau.deplacer(dep, joueur.getCouleur());
-				int nouvelleValeur = mini(plateau, joueur, this.profondeur - 1);
-				if(valeurMaxTrouvee < nouvelleValeur) {
-					valeurMaxTrouvee = nouvelleValeur;
-					depChoisi = dep;
+	public Deplacement choisirCoup(Plateau plateau, boolean maximazingPlayer) {
+		int score = minimax(plateau, this.profondeur, maximazingPlayer);
+		return this.depChoisi;
+	}
+	
+	public int minimax(Plateau plateau, int profondeur, boolean maximazingPlayer) {
+		if(profondeur == 0 || plateau.estPartieFinie()) {
+			return this.evaluation.evaluer(plateau, profondeur);
+		}
+		if(maximazingPlayer) { /* BLANC */
+			int score = Integer.MIN_VALUE;
+			for(Deplacement dep : plateau.getDeplacementsPossibles(new Blanc())) {
+				plateau.deplacer(dep, new Blanc());
+				//score = Math.max(score, minimax(plateau, profondeur - 1, false));
+				int nouveauScore = minimax(plateau, this.profondeur - 1, false);
+				if(nouveauScore >= score) {
+					score = nouveauScore;
+					this.depChoisi = dep;
 				}
 				plateau.revenirEnArriere();
 			}
-		}else {
-			int valeurMiniTrouvee = Integer.MIN_VALUE;
-			for(Deplacement dep : plateau.getDeplacementsPossibles(joueur.getCouleur())) {
-				plateau.deplacer(dep, joueur.getCouleur());
-				int nouvelleValeur = max(plateau, joueur, this.profondeur - 1);
-				if(valeurMiniTrouvee < nouvelleValeur) {
-					valeurMiniTrouvee = nouvelleValeur;
-					depChoisi = dep;
+			return score;
+		}else { /* NOIR */
+			int score = Integer.MAX_VALUE;
+			for(Deplacement dep : plateau.getDeplacementsPossibles(new Noir())) {
+				plateau.deplacer(dep, new Noir());
+				int nouveauScore = minimax(plateau, this.profondeur - 1, true);
+				if(nouveauScore <= score) {
+					score = nouveauScore;
+					this.depChoisi = dep;
 				}
 				plateau.revenirEnArriere();
 			}
+			return score;
 		}
-		return depChoisi;
 	}
 	
-	private int mini(Plateau plateau, IJoueur joueur, int profondeur) {
-		if(profondeur == 0  
-				|| plateau.estEchecEtMat(new Blanc()) 
-				|| plateau.estEchecEtMat(new Noir())
-				|| plateau.estPat(joueur.getCouleur())) {
-			return this.evaluation.evaluer(plateau, profondeur);
-		}
-		int valeurMiniTrouvee = Integer.MAX_VALUE;
-		for(Deplacement dep : plateau.getDeplacementsPossibles(joueur.getCouleur())) {
-			plateau.deplacer(dep, joueur.getCouleur());
-			int nouvelleValeur = max(plateau, joueur, profondeur - 1);
-			if(valeurMiniTrouvee > nouvelleValeur) {
-				valeurMiniTrouvee = nouvelleValeur;
-			}
-			plateau.revenirEnArriere();
-		}
-		return valeurMiniTrouvee;
-	}
-	
-	private int max(Plateau plateau, IJoueur joueur, int profondeur) {
-		if(profondeur == 0 
-				|| plateau.estEchecEtMat(new Blanc()) 
-				|| plateau.estEchecEtMat(new Noir())
-				|| plateau.estPat(joueur.getCouleur())) {
-			return this.evaluation.evaluer(plateau, profondeur);
-		}
-		int valeurMaxTrouvee = Integer.MIN_VALUE;
-		for(Deplacement dep : plateau.getDeplacementsPossibles(joueur.getCouleur())) {
-			plateau.deplacer(dep, joueur.getCouleur());
-			int nouvelleValeur = mini(plateau, joueur, profondeur - 1);
-			if(valeurMaxTrouvee < nouvelleValeur) {
-				valeurMaxTrouvee = nouvelleValeur;
-			}
-			plateau.revenirEnArriere();
-		}
-		return valeurMaxTrouvee;
-	}
 }

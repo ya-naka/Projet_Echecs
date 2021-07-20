@@ -19,15 +19,15 @@ class DeplacementTest {
 
 	@Test
 	void equalsTest() {
-		Plateau plateau = new Plateau();
+		Plateau plateau = new Plateau(new Joueur(new Blanc()), new Joueur(new Noir()));
 		assertTrue(new Deplacement(plateau, 0, 1).equals(new Deplacement(plateau, 0, 1)));
 		assertFalse(new Deplacement(plateau, 0, 1).equals(new Deplacement(plateau, 1, 0)));
 	}
 	
 	@Test void estDepalcementValideTest() {
-		Plateau plateau = new Plateau();
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
 		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));

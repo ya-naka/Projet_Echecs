@@ -20,7 +20,18 @@ public class Plateau {
 	private List<IPiece> rois;
 	private IJoueur joueurActif, j1, j2;
 	
+	/*
 	public Plateau() {
+		this.plateau = new Case[NB_CASES];
+		initAleatoire();
+	}*/
+	
+	public Plateau(IJoueur j1, IJoueur j2) {
+		//on vérifie que les 2 joueurs ne sont pas dans le même camp
+		assert(!j1.getCouleur().estMemeCouleur(j2.getCouleur()));
+		this.j1 = j1;
+		this.j2 = j2;
+		this.joueurActif = j1;
 		this.plateau = new Case[NB_CASES];
 		initAleatoire();
 	}
@@ -91,8 +102,16 @@ public class Plateau {
 		}
 	}
 	
+	public void changerJoueurActif() {
+		this.joueurActif = getJoueurActif().equals(this.j1) ? this.j2 : this.j1;
+	}
+	
 	public Case getCase(int index) {
 		return this.plateau[index];
+	}
+	
+	public IJoueur getJoueurActif() {
+		return this.joueurActif;
 	}
 	
 	//retourne le roi de la couleur demandée
@@ -153,6 +172,7 @@ public class Plateau {
 		getCase(deplacement.getNouvelleCoord()).setPiece(pieceDeplacee);
 		//vide la case de départ
 		getCase(deplacement.getCoordActuelle()).setPiece(null);
+		changerJoueurActif();
 	}
 
 	//retorune vrai si le camp envoyée en paramètre est en échec
@@ -235,7 +255,14 @@ public class Plateau {
 			}
 			//place la pièce jouée sur sa position précédente sur le plateau
 			getCase(derniereEntree.getDeplacement().getCoordActuelle()).setPiece(pieceDeplacee);
+			changerJoueurActif();
 		}
+	}
+	
+	public boolean estPartieFinie() {
+		return (estEchecEtMat(new Blanc())
+				|| estEchecEtMat(new Noir())
+				|| estPat(this.joueurActif.getCouleur()));
 	}
 	
 	//affichage du plateau
