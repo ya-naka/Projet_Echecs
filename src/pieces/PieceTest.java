@@ -33,7 +33,7 @@ class PieceTest {
 	
 	@Test
 	void peutDeplacerRoiTest() {
-		Plateau plateau = new Plateau(new Joueur(new Blanc()), new Joueur(new Noir()));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
 		pieces.add(new Roi(0, new Noir()));
 		pieces.add(new Roi(15, new Blanc()));
@@ -73,7 +73,7 @@ class PieceTest {
 	
 	@Test
 	void peutDeplacerTourTest() {
-		Plateau plateau = new Plateau(new Joueur(new Blanc()), new Joueur(new Noir()));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
 		pieces.add(new Tour(18, new Noir()));
 		pieces.add(new Tour(7, new Blanc()));
@@ -126,6 +126,47 @@ class PieceTest {
 		assertFalse(piece.peutDeplacer(plateau, 47));
 		assertFalse(piece.peutDeplacer(plateau, 55));
 		assertFalse(piece.peutDeplacer(plateau, 63));
+	}
+	
+	@Test
+	void peutDeplacerFouTest() {
+		Plateau plateau = new Plateau();
+		List<IPiece> pieces = new ArrayList<>();
+		pieces.add(new Fou(10, new Noir()));
+		plateau.initFixe(pieces);
+		//récupère le fou noir sans obstacle
+		IPiece piece = plateau.getCase(10).getPiece();
+		assertTrue(piece.peutDeplacer(plateau, 1));
+		assertTrue(piece.peutDeplacer(plateau, 3));
+		assertTrue(piece.peutDeplacer(plateau, 17));
+		assertTrue(piece.peutDeplacer(plateau, 24));
+		assertTrue(piece.peutDeplacer(plateau, 19));
+		assertTrue(piece.peutDeplacer(plateau, 28));
+		assertTrue(piece.peutDeplacer(plateau, 37));
+		assertTrue(piece.peutDeplacer(plateau, 46));
+		assertTrue(piece.peutDeplacer(plateau, 55));
+		assertFalse(piece.peutDeplacer(plateau, -8));
+		assertFalse(piece.peutDeplacer(plateau, -4));
+		assertFalse(piece.peutDeplacer(plateau, 31));
+		assertFalse(piece.peutDeplacer(plateau, 64));
+		assertFalse(piece.peutDeplacer(plateau, 2));
+		assertFalse(piece.peutDeplacer(plateau, 9));
+		assertFalse(piece.peutDeplacer(plateau, 11));
+		assertFalse(piece.peutDeplacer(plateau, 18));
+		assertFalse(piece.peutDeplacer(plateau, 43));
+		assertFalse(piece.peutDeplacer(plateau, 26));
+		//ajout d'un fou blanc sur la trajectoire du fou noir
+		pieces.add(new Fou(28, new Blanc()));
+		plateau.initFixe(pieces);
+		assertTrue(piece.peutDeplacer(plateau, 19));
+		assertTrue(piece.peutDeplacer(plateau, 17));
+		assertTrue(piece.peutDeplacer(plateau, 1));
+		assertTrue(piece.peutDeplacer(plateau, 3));
+		assertTrue(piece.peutDeplacer(plateau, 24));
+		assertTrue(piece.peutDeplacer(plateau, 28));
+		assertFalse(piece.peutDeplacer(plateau, 37));
+		assertFalse(piece.peutDeplacer(plateau, 46));
+		assertFalse(piece.peutDeplacer(plateau, 55));
 	}
 
 }

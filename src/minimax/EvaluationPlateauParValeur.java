@@ -11,11 +11,24 @@ public class EvaluationPlateauParValeur implements IEvaluationPlateau{
 	private static final int ECHEC_ET_MAT_SCORE = 1000;
 	private static final int PAT_SCORE = 1000;
 	
+	/**
+	 * évalue l'état du plateau
+	 */
 	@Override
 	public int evaluer(Plateau plateau, int profondeur) {
-		return calculerScore(plateau, new Blanc(), profondeur) + calculerScore(plateau, new Noir(), profondeur);
+		return calculerScore(plateau, new Blanc(), profondeur) - calculerScore(plateau, new Noir(), profondeur);
 	}
 
+	/**
+	 * attribue un score à l'état du plateau en fonction :
+	 * - du camp sélectionné
+	 * - de la valeur de chaque pièce sur le plateau 
+	 * - de différents paramètres
+	 * @param plateau
+	 * @param couleur
+	 * @param profondeur
+	 * @return
+	 */
 	public int calculerScore(Plateau plateau, ICouleur couleur, int profondeur) {
 		int score = 0;
 		for(IPiece piece : plateau.getPieces(couleur)) {
@@ -39,6 +52,6 @@ public class EvaluationPlateauParValeur implements IEvaluationPlateau{
 		if(plateau.estPat(couleur.getCouleurOpposee())) {
 			score += PAT_SCORE;
 		}
-		return couleur.estBlanc() ? score : -score;
+		return score;
 	}
 }

@@ -11,6 +11,10 @@ public abstract class Couleur implements ICouleur{
 	@Override 
 	public abstract ICouleur getCouleurOpposee();
 
+	/**
+	 * retourne vrai si les couleurs sont identiques
+	 * @param couleur
+	 */
 	public boolean estMemeCouleur(ICouleur couleur) {
 		return this.getClass() == couleur.getClass();
 	}

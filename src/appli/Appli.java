@@ -48,50 +48,34 @@ public class Appli {
 				j2 = new Ordinateur(noir);
 				break;
 		}
-		
+		//le joueur commençant est Blanc
 		joueurActif = j1.getCouleur().estBlanc() ? j1 : j2;
-		Plateau plateau = new Plateau(j1, j2);
+		Plateau plateau = new Plateau();
+
 		System.out.println(plateau.toString());
 		do {
-			/*
-			 * if(plateau.estPartieFinie()){
-			 * 		Message.partieFinie(plateau);
-			 * }
-			 */
-			
-			//vérifie si le joueur a toujours son roi, sinon il a perdu la partie
-			if(plateau.getRoi(joueurActif.getCouleur()) == null) {
-				System.out.println(joueurActif.getCouleur().toString() + " a perdu");
+			//vérifie si la partie est terminée
+			if(plateau.estPartieFinie(joueurActif.getCouleur())){
+				Message.partieFinie(plateau, joueurActif);
 				break;
-			}
-			boolean estPat = plateau.estPat(joueurActif.getCouleur());
-			//vérifie sir le joueur peut jouer au moins un coup légal, sinon la partie est nulle
-			if(estPat) {
-				System.out.println(joueurActif.getCouleur().toString() + " ne peut plus jouer.\n"
-						+ "La partie est déclarée nulle");
-				break;
-			}
+	     	}
 			
 			//avertit le joueur s'il est en échec
 			if(plateau.estEchec(joueurActif.getCouleur())) {
-				//System.out.println("Attention, " + joueurActif.getCouleur().toString() + " est échec !");
 				Message.joueurActifEstEchec(joueurActif);
-				//à remplacer par :
-				//Message.joueurActifEstEchec(plateau.getJoueurActif());
 			}
 			
-			//instruction de saisie au joueur
-			/*System.out.println("A " + joueurActif.getCouleur().toString() + " de jouer."
-					+ " Veuillez saisir un coup (ex: a1b2) :");*/
+			//affiche les instructions au joueur courant
 			Message.saisieJoueur(joueurActif);
 			
+			//tour du joueur courant
 			joueurActif.jouer(plateau);
+			//affichage du plateau de jeu
 			System.out.println(plateau.toString());
 			
 			//changement de joueur
 			joueurActif = joueurActif.getCouleur().estMemeCouleur(j1.getCouleur()) ? j2 : j1;
 		}while(true);
-		
 	}
 
 }

@@ -33,20 +33,20 @@ class PlateauTest {
 	void getRoiTest() {
 		ICouleur blanc = new Blanc();
 		ICouleur noir = new Noir();
-		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
 		plateau.initFixe(pieces);
 		//aucun roi n'est sur le plateau
 		assertTrue(plateau.getRoi(noir) == null);
 		assertTrue(plateau.getRoi(blanc) == null);
-		//ajout d'un roi noir en case 0
+		//ajout d'un roi noir en case a1
 		pieces.add(new Roi(0, noir));
 		plateau.initFixe(pieces);
 		assertTrue(plateau.getRoi(noir) == pieces.get(0));
 		assertFalse(plateau.getRoi(noir) == null);
 		assertFalse(plateau.getRoi(blanc) == pieces.get(0));
 		assertTrue(plateau.getRoi(blanc) == null);
-		//ajout d'un roi blanc en case 10
+		//ajout d'un roi blanc en case c2
 		pieces.add(new Roi(10, blanc));
 		plateau.initFixe(pieces);
 		assertTrue(plateau.getRoi(blanc) == pieces.get(1));
@@ -57,7 +57,7 @@ class PlateauTest {
 	void estEchecTest() {
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
-		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
@@ -88,7 +88,7 @@ class PlateauTest {
 	void deplacerTest() {
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
-		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
 		//ajour d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
@@ -125,7 +125,7 @@ class PlateauTest {
 	void revenirEnArriereTest() {
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
-		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
 		//ajout d'un roi noir en case 0
 		pieces.add(new Roi(0, noir));
@@ -170,21 +170,47 @@ class PlateauTest {
 	void estPatTest() {
 		ICouleur noir = new Noir();
 		ICouleur blanc = new Blanc();
-		Plateau plateau = new Plateau(new Joueur(blanc), new Joueur(noir));
+		Plateau plateau = new Plateau();
 		List<IPiece> pieces = new ArrayList<>();
+		//ajout d'un roi noir en a1
 		pieces.add(new Roi(0, noir));
+		//ajout d'une tour blanche en a3
 		pieces.add(new Tour(16, blanc));
 		plateau.initFixe(pieces);
 		assertFalse(plateau.estPat(noir));
 		assertFalse(plateau.estPat(blanc));
+		//ajout d'une tour blanche en e1
 		pieces.add(new Tour(4, blanc));
 		plateau.initFixe(pieces);
 		assertFalse(plateau.estPat(noir));
 		assertFalse(plateau.estPat(blanc));
+		//ajout d'une tour blanche en d2, mettant les blancs en pat
 		pieces.add(new Tour(11, blanc));
 		plateau.initFixe(pieces);
 		assertTrue(plateau.estPat(noir));
 		assertFalse(plateau.estPat(blanc));
+	}
+	
+	@Test
+	void estEchecEtMat() {
+		ICouleur noir = new Noir();
+		ICouleur blanc = new Blanc();
+		Plateau plateau = new Plateau();
+		List<IPiece> pieces = new ArrayList<>();
+		//ajout d'un roi blanc en case a1
+		pieces.add(new Roi(0, blanc));
+		plateau.initFixe(pieces);
+		assertFalse(plateau.estEchecEtMat(blanc));
+		//ajout d'un roi noir en case c2
+		pieces.add(new Roi(10, noir));
+		plateau.initFixe(pieces);
+		assertFalse(plateau.estEchecEtMat(blanc));
+		assertFalse(plateau.estEchecEtMat(noir));
+		//ajout d'une tour noire en case a3, mettant ainsi le roi blanc en échec et mat
+		pieces.add(new Tour(16, noir));
+		plateau.initFixe(pieces);
+		assertTrue(plateau.estEchecEtMat(blanc));
+		assertFalse(plateau.estEchecEtMat(noir));
 	}
 
 }

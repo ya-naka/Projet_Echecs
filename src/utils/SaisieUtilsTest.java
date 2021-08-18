@@ -53,6 +53,6 @@ class SaisieUtilsTest {
 		//saisie doit être correct
 		String saisie = sin.nextLine();
 		assertTrue(SaisieUtils.estSaisieValide(saisie));
-		System.out.println(new Deplacement(new Plateau(new Joueur(new Blanc()), new Joueur(new Noir())), saisie));
+		System.out.println(new Deplacement(new Plateau(), saisie));
 	}
 }

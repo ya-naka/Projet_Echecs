@@ -20,17 +20,18 @@ public class Roi extends Piece{
 			-50, -40, -30, -20, -20, -30, -40, -50
 	};
 
+	/**
+	 * Constructeur
+	 * @param position
+	 * @param couleur
+	 */
 	public Roi(int position, ICouleur couleur) {
-		super(position, couleur);
-	}
-	
-	public String toString() {
-		if(super.getCouleur().estBlanc()) {
-			return "r".toUpperCase();
-		}
-		return "r";
+		super("r", position, couleur);
 	}
 
+	/**
+	 * retourne tous les déplacements possibles de la pièce
+	 */
 	@Override
 	public List<Deplacement> getDeplacementsPossibles(Plateau plateau) {
 		List<Deplacement> depPossibles = new ArrayList<>();
@@ -48,6 +49,11 @@ public class Roi extends Piece{
 		return depPossibles;
 	}
 	
+	/**
+	 * vérifie que la position envoyée est une case adjacente de la pièce
+	 * @param coordDeplacement
+	 * @return
+	 */
 	public boolean estCaseAdjacente(int coordDeplacement) {
 		//si première colonne
 		if(super.getPosition()%8 == 0) {
@@ -60,6 +66,9 @@ public class Roi extends Piece{
 		return true;
 	}
 
+	/**
+	 * retourne la valeur de la pièce selon sa position
+	 */
 	@Override
 	public int getValeur() {
 		return valeur[super.getPosition()];

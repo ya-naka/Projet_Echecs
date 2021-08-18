@@ -20,17 +20,18 @@ public class Tour extends Piece{
 			0, 5, 5, 5, 5, 5, 5, 0
 	};
 	
+	/**
+	 * Constructeur
+	 * @param position
+	 * @param couleur
+	 */
 	public Tour(int position, ICouleur couleur) {
-		super(position, couleur);
-	}
-	
-	public String toString() {
-		if(super.getCouleur().estBlanc()) {
-			return "t".toUpperCase();
-		}
-		return "t";
+		super("t", position, couleur);
 	}
 
+	/**
+	 * retourne tous les déplacements possibles de la pièce
+	 */
 	@Override
 	public List<Deplacement> getDeplacementsPossibles(Plateau plateau) {
 		List<Deplacement> depPossibles = new ArrayList<>();
@@ -39,7 +40,7 @@ public class Tour extends Piece{
 			int position = super.getPosition() + coordDeplacements[i];
 			//on inspecte chaque case se trouvant sur la trajectoire
 			while(Plateau.estCaseValide(position)) {
-				if(estSurTrajectoire(position, coordDeplacements[i])) {
+				if(estSurTrajectoire(position)) {
 					if(!plateau.getCase(position).estOccupée()) {
 						depPossibles.add(new Deplacement(plateau, super.getPosition(), position));
 					}else {
@@ -55,11 +56,19 @@ public class Tour extends Piece{
 		return depPossibles;
 	}
 	
-	public boolean estSurTrajectoire(int position, int coordDeplacement) {
+	/**
+	 * vérifie si la position envoyée est sur la trajectoire de la pièce
+	 * @param position
+	 * @return
+	 */
+	public boolean estSurTrajectoire(int position) {
 		//vérifie si la nouvelle position est sur la même ligne ou colonne de la position initiale
 		return (position/8 == super.getPosition()/8) || (position%8 == super.getPosition()%8);
 	}
 
+	/**
+	 * retourne la valeur de la pièce selon sa position
+	 */
 	@Override
 	public int getValeur() {
 		return valeur[super.getPosition()];
